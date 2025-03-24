@@ -2,11 +2,13 @@ package com.atotwhite;
 
 import com.atotwhite.service.StudentManager;
 import com.atotwhite.service.impl.StudentManagerImpl;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.util.Scanner;
 /*
 * 只能在方法中new实体类 集合类
 * */
+@SpringBootApplication
 public class Main {
     public static void main(String[] args) throws Exception {
 
