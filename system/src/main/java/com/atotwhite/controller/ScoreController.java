@@ -35,4 +35,9 @@ public class ScoreController {
     public String remove(@PathVariable int id) {
         return scoreService.deleteScore(id);
     }
+
+    @GetMapping("/search")
+    public List<Score> search(@RequestParam Score score) {
+        return scoreService.searchScore(score);
+    }
 }

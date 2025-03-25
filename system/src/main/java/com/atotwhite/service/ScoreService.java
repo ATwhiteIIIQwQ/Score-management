@@ -10,5 +10,5 @@ public interface ScoreService {
     List<Score> showAllScore();
     String updateScore(int id, Score score);
     String deleteScore(int id);
-//    void searchScore();
+    List<Score> searchScore(Score score);
 }
