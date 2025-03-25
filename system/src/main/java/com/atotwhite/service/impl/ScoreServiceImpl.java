@@ -6,9 +6,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -81,7 +78,6 @@ public class ScoreServiceImpl implements ScoreService {
 
     public List<Score> searchScore(Score score) {
         //查询信息操作
-
         List<Object> params = new ArrayList<>();
         StringBuilder sql = new StringBuilder("select * from student_manage where 1=1 ");
 
@@ -104,7 +100,6 @@ public class ScoreServiceImpl implements ScoreService {
 
         sql.delete(sql.length() - 1, sql.length());
 
-        // 如果没有输入任何查询内容
         return jdbcTemplate.query(sql.toString(), (rs, rowNum) ->
             new Score(
                 rs.getInt("id"),

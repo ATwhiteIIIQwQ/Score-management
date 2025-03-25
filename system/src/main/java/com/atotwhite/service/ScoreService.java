@@ -2,7 +2,6 @@ package com.atotwhite.service;
 
 import com.atotwhite.domain.Score;
 
-import java.sql.SQLException;
 import java.util.List;
 
 public interface ScoreService {

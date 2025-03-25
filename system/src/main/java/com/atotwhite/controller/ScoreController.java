@@ -9,6 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/system/score")
+//允许跨域请求
 @CrossOrigin(origins = "*")
 public class ScoreController {
 
