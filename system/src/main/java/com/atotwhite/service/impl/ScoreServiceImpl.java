@@ -35,8 +35,9 @@ public class ScoreServiceImpl implements ScoreService {
                 rs.getInt("id"),
                 rs.getString("name"),
                 rs.getInt("age"),
-                rs.getString("address"))
-            );
+                rs.getString("address")
+            )
+        );
     }
 
     public String updateScore(int id, Score score) {

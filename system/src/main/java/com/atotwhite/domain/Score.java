@@ -5,12 +5,14 @@ public class Score {
     private String name;
     private int age;
     private String address;
+//    private int score;
 
     public Score(int id, String name, int age, String address) {
         this.id = id;
         this.name = name;
         this.age = age;
         this.address = address;
+//        this.score = score;
     }
 
     public int getId() {return id;}
@@ -21,4 +23,6 @@ public class Score {
     public void setAge(int age) {this.age = age;}
     public String getAddress() {return address;}
     public void setAddress(String address) {this.address = address;}
+//    public int getScore() {return score;}
+//    public void setScore(int score) {this.score = score;}
 }
