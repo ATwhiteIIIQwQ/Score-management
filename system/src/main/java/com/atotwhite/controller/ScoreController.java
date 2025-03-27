@@ -22,7 +22,7 @@ public class ScoreController {
         return list;
     }
 
-    @PostMapping
+    @PostMapping("/add")
     public String add(@RequestBody Score score) {
         return scoreService.addScore(score);
     }
@@ -42,3 +42,4 @@ public class ScoreController {
         return scoreService.searchScore(score);
     }
 }
+
