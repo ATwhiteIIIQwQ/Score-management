@@ -8,6 +8,7 @@
         <th>姓名</th>
         <th>年龄</th>
         <th>地址</th>
+        <th>成绩</th>
         <th>操作</th>
       </tr>
       </thead>
@@ -17,6 +18,7 @@
         <td>{{ student.name }}</td>
         <td>{{ student.age }}</td>
         <td>{{ student.address }}</td>
+        <td>{{ student.score }}</td>
         <td>
           <button @click="deleteStudent(student.id)">删除</button>
         </td>
@@ -51,7 +53,7 @@ export default {
       if (confirm('确定删除吗？')) {
         try {
           await studentApi.deleteStudent(id);
-          this.loadStudents(); // 刷新列表
+          await this.loadStudents(); // 刷新列表
         } catch (error) {
           console.error('删除失败:', error);
         }
