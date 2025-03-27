@@ -6,6 +6,7 @@
       <input v-model="student.name" placeholder="姓名" required>
       <input v-model="student.age" type="number" placeholder="年龄" required>
       <input v-model="student.address" placeholder="地址" required>
+      <input v-model="student.score" placeholder="成绩" required>
       <button type="submit">提交</button>
     </form>
   </div>
@@ -21,7 +22,8 @@ export default {
         id: '',
         name: '',
         age: '',
-        address: ''
+        address: '',
+        score:''
       }
     };
   },
@@ -29,8 +31,8 @@ export default {
     async handleSubmit() {
       try {
         await scoreApi.addStudent(this.student);
-        this.$emit('student-added'); // 通知父组件刷新
-        this.student = { id: '', name: '', age: '', address: '' }; // 清空表单
+        this.$emit('refresh-list'); // 通知父组件刷新
+        this.student = { id: '', name: '', age: '', address: '' ,score: ''}; // 清空表单
       } catch (error) {
         console.error('添加失败:', error);
       }
