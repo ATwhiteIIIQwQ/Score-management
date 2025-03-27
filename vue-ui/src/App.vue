@@ -1,8 +1,8 @@
 <template>
   <div id="app">
     <h1>学生管理系统</h1>
-    <AddScore @student-added="loadScores" />
-    <ScoreList ref="studentList" />
+    <AddScore @refresh-list="loadStudents" />
+    <ScoreList ref="scoreList" />
   </div>
 </template>
 
@@ -16,8 +16,8 @@ export default {
     ScoreList
   },
   methods: {
-    loadScores() {
-      this.$refs.studentList.loadScores();
+    loadStudents() {
+      this.$refs.scoreList.loadStudents();
     }
   }
 };
@@ -26,3 +26,4 @@ export default {
 <style scoped>
 
 </style>
+
