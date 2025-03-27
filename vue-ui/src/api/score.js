@@ -14,7 +14,7 @@ export default {
 
     // 添加学生
     addStudent(student) {
-        return api.post('/', student);
+        return api.post('/add', student);
     },
 
     // 修改学生
