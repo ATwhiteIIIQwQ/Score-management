@@ -17,12 +17,13 @@ public class ScoreServiceImpl implements ScoreService {
 
     public String addScore(Score score) {
         //添加信息操作
-        String sql = "insert into student_manage values(?,?,?,?)";
+        String sql = "insert into student_manage values(?,?,?,?,?)";
         int rows = jdbcTemplate.update(sql,
                 score.getId(),
                 score.getName(),
                 score.getAge(),
-                score.getAddress()
+                score.getAddress(),
+                score.getScore()
         );
         return rows > 0 ? "success" : "fail";
     }
@@ -35,7 +36,8 @@ public class ScoreServiceImpl implements ScoreService {
                 rs.getInt("id"),
                 rs.getString("name"),
                 rs.getInt("age"),
-                rs.getString("address")
+                rs.getString("address"),
+                    rs.getInt("score")
             )
         );
     }
@@ -106,7 +108,12 @@ public class ScoreServiceImpl implements ScoreService {
                 rs.getInt("id"),
                 rs.getString("name"),
                 rs.getInt("age"),
-                rs.getString("address"))
+                rs.getString("address"),
+            rs.getInt("score")
+            ), params.toArray()
             );
+    }
+}
+
     }
 }
