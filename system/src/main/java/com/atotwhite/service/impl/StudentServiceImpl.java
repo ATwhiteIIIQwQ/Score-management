@@ -1,7 +1,7 @@
 package com.atotwhite.service.impl;
 
-import com.atotwhite.domain.Score;
-import com.atotwhite.service.ScoreService;
+import com.atotwhite.domain.Student;
+import com.atotwhite.service.StudentService;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,52 +10,80 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class ScoreServiceImpl implements ScoreService {
+public class StudentServiceImpl implements StudentService {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    public String addScore(Score score) {
-        //添加信息操作
-        String sql = "insert into student_manage values(?,?,?,?)";
-        int rows = jdbcTemplate.update(sql,
-                score.getId(),
-                score.getName(),
-                score.getAge(),
-                score.getAddress()
-        );
-        return rows > 0 ? "success" : "fail";
-    }
-
-    public List<Score> showAllScore() {
-        //查看全部学生信息
-        String sql = "select * from student_manage";
+    @Override
+    public List<Student> showAllStudent() {
+        //查看全部信息
+        String sql = "SELECT * FROM oop_student";
         return jdbcTemplate.query(sql, (rs, rowNum) ->
-            new Score(
-                rs.getInt("id"),
-                rs.getString("name"),
-                rs.getInt("age"),
-                rs.getString("address")
-            )
+                new Student(
+                        rs.getInt("student_id"),
+                        rs.getString("student_num"),
+                        rs.getString("student_name"),
+                        rs.getInt("student_grade"),
+                        rs.getString("student_class")
+                )
         );
     }
 
-    public String updateScore(int id, Score score) {
-        //修改数据操作
+    @Override
+    public String addStudent(Student student) {
+        //添加信息操作
         List<Object> params = new ArrayList<>();
-        StringBuilder sql = new StringBuilder("UPDATE student_manage SET ");
+        StringBuilder sql = new StringBuilder("INSERT INTO oop_student SET ");
 
-        if (score.getName() != null) {
-            sql.append("name = ?, ");
-            params.add(score.getName());
+        if (student.getStudentNum() != null) {
+            sql.append("student_num = ?, ");
+            params.add(student.getStudentNum());
         }
-        if (score.getAge() != 0) {
-            sql.append("age = ?, ");
-            params.add(score.getAge());
+        if (student.getStudentName() != null) {
+            sql.append("student_name = ?, ");
+            params.add(student.getStudentName());
         }
-        if (score.getAddress() != null) {
-            sql.append("address = ?, ");
-            params.add(score.getAddress());
+        if (student.getStudentGrade() != 0) {
+            sql.append("student_grade = ?, ");
+            params.add(student.getStudentGrade());
+        }
+        if (student.getStudentClass() != null) {
+            sql.append("student_class = ?, ");
+            params.add(student.getStudentClass());
+        }
+    
+        if (params.isEmpty()) {
+            return "无有效数据";
+        }
+    
+        sql.delete(sql.length() - 2, sql.length());
+        
+        int rows = jdbcTemplate.update(sql.toString(), params.toArray());
+        return rows > 0 ? "添加成功" : "添加失败";
+    }
+
+    @Override
+    public String updateStudent(int studentId, Student student) {
+        //修改信息操作
+        List<Object> params = new ArrayList<>();
+        StringBuilder sql = new StringBuilder("UPDATE oop_student SET ");
+
+        if (student.getStudentNum() != null) {
+            sql.append("student_num = ? ");
+            params.add(student.getStudentNum());
+        }
+        if (student.getStudentName() != null) {
+            sql.append("student_name = ?, ");
+            params.add(student.getStudentName());
+        }
+        if (student.getStudentGrade() != 0) {
+            sql.append("student_grade = ?, ");
+            params.add(student.getStudentGrade());
+        }
+        if (student.getStudentClass() != null) {
+            sql.append("student_class = ?, ");
+            params.add(student.getStudentClass());
         }
 
         if (params.isEmpty()) {
@@ -63,50 +91,58 @@ public class ScoreServiceImpl implements ScoreService {
         }
 
         sql.delete(sql.length() - 2, sql.length());
-        sql.append(" WHERE id = ?");
-        params.add(id);
+        sql.append(" WHERE student_id = ?");
+        params.add(studentId);
 
         int rows = jdbcTemplate.update(sql.toString(), params.toArray());
         return rows > 0 ? "修改成功" : "修改失败（ID不存在）";
     }
 
-    public String deleteScore(int id) {
-        //删除数据操作
-        String sql = "delete from student_manage where id = ?";
-        int rows = jdbcTemplate.update(sql, id);
-        return rows > 0 ? "修改成功" : "修改失败（ID不存在）";
+    @Override
+    public String deleteStudent(int studentId) {
+        //删除信息操作
+        String sql = "delete from oop_student where student_id = ?";
+        int rows = jdbcTemplate.update(sql, studentId);
+        return rows > 0 ? "删除成功" : "删除失败（ID不存在）";
     }
 
-    public List<Score> searchScore(Score score) {
+    @Override
+    public List<Student> searchStudent(Student student) {
         //查询信息操作
         List<Object> params = new ArrayList<>();
-        StringBuilder sql = new StringBuilder("select * from student_manage where 1=1 ");
+        StringBuilder sql = new StringBuilder("select * from oop_student where 1=1 ");
 
-        if (score.getId() != 0) {
-            sql.append("AND id = ? ");
-            params.add(score.getId());
+        if (student.getStudentId() != 0) {
+            sql.append("AND student_id = ? ");
+            params.add(student.getStudentId());
         }
-        if (score.getName() != null) {
-            sql.append("AND name LIKE ? ");
-            params.add("%" + score.getName() + "% ");
+        if (student.getStudentNum() != null) {
+            sql.append("AND student_num = ? ");
+            params.add(student.getStudentNum());
         }
-        if (score.getAge() != 0) {
-            sql.append("AND age = ? ");
-            params.add(score.getAge());
+        if (student.getStudentName() != null) {
+            sql.append("AND student_name LIKE ? ");
+            params.add("%" + student.getStudentName() + "% ");
         }
-        if (score.getAddress() != null) {
-            sql.append("AND address LIKE ? ");
-            params.add("%" + score.getAddress() + "% ");
+        if (student.getStudentGrade() != 0) {
+            sql.append("AND student_grade = ? ");
+            params.add(student.getStudentGrade());
+        }
+        if (student.getStudentClass() != null) {
+            sql.append("AND student_class LIKE ? ");
+            params.add("%" + student.getStudentClass() + "% ");
         }
 
         sql.delete(sql.length() - 1, sql.length());
 
         return jdbcTemplate.query(sql.toString(), (rs, rowNum) ->
-            new Score(
-                rs.getInt("id"),
-                rs.getString("name"),
-                rs.getInt("age"),
-                rs.getString("address"))
-            );
+            new Student(
+                rs.getInt("student_id"),
+                rs.getString("student_num"),
+                rs.getString("student_name"),
+                rs.getInt("student_grade"),
+                rs.getString("student_class")
+            )
+        );
     }
 }

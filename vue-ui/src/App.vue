@@ -1,23 +1,23 @@
 <template>
-  <div id="app">
+  <div id="app" class="container">
     <h1>学生管理系统</h1>
-    <AddScore @student-added="loadScores" />
-    <ScoreList ref="studentList" />
+    <AddStudent @student-added="loadStudents" />
+    <StudentList ref="studentList" />
   </div>
 </template>
 
 <script>
-import AddScore from './components/AddScore.vue';
-import ScoreList from './components/ScoreList.vue';
+import AddStudent from './components/AddStudent.vue';
+import StudentList from './components/StudentList.vue';
 
 export default {
   components: {
-    AddScore,
-    ScoreList
+    AddStudent,
+    StudentList
   },
   methods: {
-    loadScores() {
-      this.$refs.studentList.loadScores();
+    loadStudents() {
+      this.$refs.studentList.loadStudents();
     }
   }
 };

@@ -1,2 +1,4 @@
-package com.atotwhite.controller;public class CourseController {
+package com.atotwhite.controller;
+
+public class CourseController {
 }

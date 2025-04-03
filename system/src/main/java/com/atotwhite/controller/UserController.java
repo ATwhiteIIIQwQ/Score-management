@@ -1,2 +1,4 @@
-package com.atotwhite.controller;public class UserController {
+package com.atotwhite.controller;
+
+public class UserController {
 }

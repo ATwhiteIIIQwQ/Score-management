@@ -1,24 +1,29 @@
 package com.atotwhite.domain;
 
-public class Score {
-    private int id;
-    private String name;
-    private int age;
-    private String address;
+public class Student {
+    private int studentId;
+    private String studentNum;
+    private String studentName;
+    private int studentGrade;
+    private String studentClass;
 
-    public Score(int id, String name, int age, String address) {
-        this.id = id;
-        this.name = name;
-        this.age = age;
-        this.address = address;
+    public Student(int studentId, String studentNum, String studentName, int studentGrade, String studentClass) {
+        this.studentId = studentId;
+        this.studentNum = studentNum;
+        this.studentName = studentName;
+        this.studentGrade = studentGrade;
+        this.studentClass = studentClass;
     }
 
-    public int getId() {return id;}
-    public void setId(int id) {this.id = id;}
-    public String getName() {return name;}
-    public void setName(String name) {this.name = name;}
-    public int getAge() {return age;}
-    public void setAge(int age) {this.age = age;}
-    public String getAddress() {return address;}
-    public void setAddress(String address) {this.address = address;}
+    public int getStudentId() {return studentId;}
+    public void setStudentId(int studentId) {this.studentId = studentId;}
+    public String getStudentNum() {return studentNum;}
+    public void setStudentNum(String studentNum) {this.studentNum = studentNum;}
+    public String getStudentName() {return studentName;}
+    public void setStudentName(String studentName) {this.studentName = studentName;}
+    public int getStudentGrade() {return studentGrade;}
+    public void setStudentGrade(int studentGrade) {this.studentGrade = studentGrade;}
+    public String getStudentClass() {return studentClass;}
+    public void setStudentClass(String studentClass) {this.studentClass = studentClass;}
+
 }

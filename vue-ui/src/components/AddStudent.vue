@@ -1,11 +1,11 @@
 <template>
-  <div>
+  <div class="container">
     <h2>添加学生</h2>
     <form @submit.prevent="handleSubmit">
-      <input v-model="student.id" type="number" placeholder="ID" required>
-      <input v-model="student.name" placeholder="姓名" required>
-      <input v-model="student.age" type="number" placeholder="年龄" required>
-      <input v-model="student.address" placeholder="地址" required>
+      <input v-model="student.studentNum" placeholder="学号" required>
+      <input v-model="student.studentName" placeholder="姓名" required>
+      <input v-model="student.studentGrade" type="number" placeholder="年级">
+      <input v-model="student.studentClass" placeholder="班级">
       <button type="submit">提交</button>
     </form>
   </div>
@@ -18,10 +18,10 @@ export default {
   data() {
     return {
       student: {
-        id: '',
-        name: '',
-        age: '',
-        address: ''
+        studentNum: '',
+        studentName: '',
+        studentGrade: '',
+        studentClass: ''
       }
     };
   },
@@ -30,7 +30,7 @@ export default {
       try {
         await scoreApi.addStudent(this.student);
         this.$emit('student-added'); // 通知父组件刷新
-        this.student = { id: '', name: '', age: '', address: '' }; // 清空表单
+        this.student = { studentNum: '', studentName: '', studentGrade: '', studentClass: '' }; // 清空表单
       } catch (error) {
         console.error('添加失败:', error);
       }

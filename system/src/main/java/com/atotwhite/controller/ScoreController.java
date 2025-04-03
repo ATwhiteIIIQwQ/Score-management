@@ -1,2 +1,4 @@
-package com.atotwhite.controller;public class ScoreController {
+package com.atotwhite.controller;
+
+public class ScoreController {
 }
