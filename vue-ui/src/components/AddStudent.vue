@@ -2,17 +2,17 @@
   <div class="container">
     <h2>添加学生</h2>
     <form @submit.prevent="handleSubmit">
-      <input v-model="student.studentNum" placeholder="学号" required>
-      <input v-model="student.studentName" placeholder="姓名" required>
-      <input v-model="student.studentGrade" type="number" placeholder="年级">
-      <input v-model="student.studentClass" placeholder="班级">
-      <button type="submit">提交</button>
+      <input v-model="student.studentNum" class="form-control" placeholder="学号" required>
+      <input v-model="student.studentName" class="form-control" placeholder="姓名" required>
+      <input v-model="student.studentGrade" class="form-control" type="number" placeholder="年级">
+      <input v-model="student.studentClass" class="form-control" placeholder="班级">
+      <button class="btn btn-primary" type="submit">提交</button>
     </form>
   </div>
 </template>
 
 <script>
-import scoreApi from '@/api/score';
+import scoreApi from '@/api/student';
 
 export default {
   data() {
