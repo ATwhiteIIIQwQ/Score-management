@@ -65,7 +65,7 @@ public class ScoreServiceImpl implements ScoreService {
         StringBuilder sql = new StringBuilder("UPDATE oop_score SET ");
 
         if (score.getStudentId() != 0) {
-            sql.append("course_name = ? ");
+            sql.append("course_name = ?, ");
             params.add(score.getStudentId());
         }
         if (score.getScoreId() != 0) {
@@ -73,7 +73,7 @@ public class ScoreServiceImpl implements ScoreService {
             params.add(score.getScoreId());
         }
         if (score.getScore() != 0) {
-            sql.append("score = ? ");
+            sql.append("score = ?, ");
             params.add(score.getScore());
         }
 

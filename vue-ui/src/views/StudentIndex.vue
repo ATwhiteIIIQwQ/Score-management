@@ -117,6 +117,7 @@
     data() {
       return {
         students: [],
+        studentId: null,
         student: {
           studentNum: '',
           studentName: '',
@@ -154,37 +155,44 @@
         }
       },
       async handleSubmit() {
+        if (this.studentId) {
+          await this.handleUpdate(this.studentId, this.student);
+        } else {
+          try { 
+            await studentApi.addStudent(this.student);
+            this.loadStudents();
+            this.student = { studentNum: '', studentName: '', studentGrade: '', studentClass: '' };
+          } catch (error) {
+            console.error('添加失败:', error);
+          }
+        }
+      },
+      // 在methods中添加新的方法
+      async loadStudentForEdit(studentId) {
         try {
-          await studentApi.addStudent(this.form);
-          this.loadStudents(); // 刷新列表
-          this.form = { studentNum: '', studentName: '', studentGrade: '', studentClass: '' }; // 清空表单
+          // const response = await studentApi.getStudentById(studentId);
+          // this.student = response.data;
+          this.studentId = studentId;
         } catch (error) {
-          console.error('添加失败:', error);
+          console.error('加载学生信息失败:', error);
         }
       },
-      async handleSearch() {
-      try {
-        // 过滤空值参数
-        const params = Object.fromEntries(
-          Object.entries(this.form)
-            .filter(([_, v]) => v !== '' && v !== null)
-        );
-        
-        const response = await studentApi.searchStudents(params);
-        this.students = response.data;
-      } catch (error) {
-        console.error('搜索失败:', error);
+      async handleUpdate(studentId, student) {
+        try {
+          // 修改参数为完整的对象
+          await studentApi.updateStudent(studentId, {
+            studentNum: student.studentNum,
+            studentName: student.studentName,
+            studentGrade: student.studentGrade,
+            studentClass: student.studentClass
+          });
+          this.loadStudents();
+          this.studentId = null;
+          this.student = { studentNum: '', studentName: '', studentGrade: '', studentClass: '' };
+        } catch (error) {
+          console.error('更新失败:', error);
+        }
       }
-    },
-      handleReset() {
-        this.form = {
-          studentNum: '',
-          studentName: '',
-          studentGrade: null,
-          studentClass: '',
-        }
-        this.loadStudents();
-      },
     }
   };
 </script>

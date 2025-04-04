@@ -60,7 +60,7 @@ public class CourseServiceImpl implements CourseService {
         StringBuilder sql = new StringBuilder("UPDATE oop_course SET ");
 
         if (course.getCourseName() != null) {
-            sql.append("course_name = ? ");
+            sql.append("course_name = ?, ");
             params.add(course.getCourseName());
         }
         if (course.getCourseCredit() != 0) {

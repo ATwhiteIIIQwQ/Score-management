@@ -70,7 +70,7 @@ public class StudentServiceImpl implements StudentService {
         StringBuilder sql = new StringBuilder("UPDATE oop_student SET ");
 
         if (student.getStudentNum() != null) {
-            sql.append("student_num = ? ");
+            sql.append("student_num = ?, ");
             params.add(student.getStudentNum());
         }
         if (student.getStudentName() != null) {
