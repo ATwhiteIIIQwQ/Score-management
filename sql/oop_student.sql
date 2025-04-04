@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS `oop_student` (
   `student_grade` int DEFAULT NULL,
   `student_class` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_german2_ci DEFAULT NULL,
   PRIMARY KEY (`student_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_german2_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_german2_ci;
 
 -- 数据导出被取消选择。
 

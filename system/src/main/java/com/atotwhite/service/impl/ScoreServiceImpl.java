@@ -118,7 +118,7 @@ public class ScoreServiceImpl implements ScoreService {
 
         sql.delete(sql.length() - 1, sql.length());
 
-        return jdbcTemplate.query(sql.toString(), (rs, rowNum) ->
+        return jdbcTemplate.query(sql.toString(), params.toArray(), (rs, rowNum) ->
                 new Score(
                         rs.getInt("score_id"),
                         rs.getInt("student_id"),

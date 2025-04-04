@@ -96,7 +96,7 @@ public class CourseServiceImpl implements CourseService {
 
         if (course.getCourseName() != null) {
             sql.append("AND course_name LIKE ? ");
-            params.add("%" + course.getCourseName() + "% ");
+            params.add("%" + course.getCourseName() + "%");
         }
         if (course.getCourseCredit() != null) {
             sql.append("AND course_credit = ? ");
@@ -105,7 +105,7 @@ public class CourseServiceImpl implements CourseService {
 
         sql.delete(sql.length() - 1, sql.length());
 
-        return jdbcTemplate.query(sql.toString(), (rs, rowNum) ->
+        return jdbcTemplate.query(sql.toString(), params.toArray(), (rs, rowNum) ->
                 new Course(
                         rs.getInt("course_id"),
                         rs.getString("course_name"),

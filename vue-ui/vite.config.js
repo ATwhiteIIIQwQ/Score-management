@@ -19,7 +19,6 @@ export default defineConfig({
       '/system': {
         target: 'http://localhost:8080', // 后端地址
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/system/, '') // Vite 使用 rewrite 而非 pathRewrite
       }
     },
     host: '127.0.0.1',

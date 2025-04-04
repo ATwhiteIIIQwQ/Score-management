@@ -134,7 +134,7 @@
       async loadStudents() {
         try {
           const response = await studentApi.getAllStudents();
-          this.students = response.data;
+          this.students = response;
         } catch (error) {
           console.error('加载学生列表失败:', error);
         }
@@ -172,7 +172,7 @@
       async handleSearch() {
         try {
           const response = await studentApi.searchStudents(this.student);
-          this.students = response.data; 
+          this.students = response; 
         } catch (error) {
           console.error('搜索失败:', error);
         }
