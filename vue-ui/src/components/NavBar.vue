@@ -1,13 +1,22 @@
 <template>
-    <div class="navbar-container">
-        <nav class="navbar">
-            <router-link class="nav-link" to="/students">
+    <div class="sidebar bg-dark text-white vh-100 p-3">
+        <nav class="nav flex-column">
+            <router-link 
+                to="/students" 
+                class="nav-link text-white" 
+                active-class="active">
                 学生管理
             </router-link>
-            <router-link class="nav-link" to="/courses">
+            <router-link 
+                to="/courses" 
+                class="nav-link text-white"
+                active-class="active">
                 课程管理
             </router-link>
-            <router-link class="nav-link" to="/scores">
+            <router-link 
+                to="/scores" 
+                class="nav-link text-white"
+                active-class="active">
                 成绩管理
             </router-link>
         </nav>
@@ -15,30 +24,27 @@
 </template>
 
 <style scoped>
-  .navbar-container {
+.sidebar {
+    width: 250px;
     position: fixed;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    width: 200px;
-  }
-  .navbar {
-    width: 200px;
-    background: #f0f0f0;
-    padding: 20px;
-    border-right: 1px solid #ddd;
-  }
-  .nav-link {
-  display: block;
-  padding: 10px;
-  margin: 5px 0;
-  color: #333;
-  text-decoration: none;
-  border-radius: 4px;
-  }
-  .nav-link:hover {
-    background: #e0e0e0;
-  }
+}
+
+.nav-link {
+    transition: all 0.3s ease;
+    border-radius: 4px;
+    margin: 4px 0;
+}
+
+.nav-link:hover {
+    background-color: #34495e !important;
+    transform: translateX(5px);
+}
+
+.active {
+    background-color: #3498db !important;
+    font-weight: bold;
+}
+
 </style>
 
 <script>
