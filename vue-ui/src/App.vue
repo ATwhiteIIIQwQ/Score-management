@@ -1,29 +1,26 @@
 <template>
-  <div id="app" class="container">
-    <h1>学生管理系统</h1>
-    <AddStudent @student-added="loadStudents" />
-    <StudentList ref="studentList" />
+  <div id="app">
+    <NavBar />
+    <main class="main">
+      <router-view />
+    </main>  
   </div>
 </template>
 
 <script>
-import AddStudent from './components/AddStudent.vue';
-import StudentList from './components/StudentList.vue';
+import NavBar from './components/NavBar.vue';
 
 export default {
   components: {
-    AddStudent,
-    StudentList
+    NavBar
   },
-  methods: {
-    loadStudents() {
-      this.$refs.studentList.loadStudents();
-    }
-  }
 };
 </script>
 
 <style scoped>
-
+.main {
+  flex: 1;
+  padding: 20px;
+}
 </style>
 

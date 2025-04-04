@@ -20,7 +20,7 @@
             <td>{{ student.studentGrade }}</td>
             <td>{{ student.studentClass }}</td>
             <td>
-              <button @click="deleteStudent(student.studentId)">删除</button>
+              <button class="btn btn-danger" @click="deleteStudent(student.studentId)">删除</button>
             </td>
           </tr>
       </tbody>
@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import studentApi from '@/api/score';
+import studentApi from '@/api/student';
 
 export default {
   data() {
@@ -49,10 +49,10 @@ export default {
         console.error('加载学生列表失败:', error);
       }
     },
-    async deleteStudent(courseId) {
-      if (confirm('确定删除吗？')) {
+    async deleteStudent(studentId) {
+      if (confirm('确定删除学生吗？')) {
         try {
-          await studentApi.deleteStudent(courseId);
+          await studentApi.deleteStudent(studentId);
           this.loadStudents(); // 刷新列表
         } catch (error) {
           console.error('删除失败:', error);
