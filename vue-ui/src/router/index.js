@@ -5,12 +5,12 @@ const Router = createRouter({
     routes: [
         {
             path: '/students',
-            component: () => import('@/components/StudentList.vue')
+            component: () => import('@/views/StudentIndex.vue')
         },
-        {
-            path: '/courses',
-            component: () => import('@/components/AddStudent.vue')
-        },
+        // {
+        //     path: '/courses',
+        //     component: () => import('@/views/CourseIndex.vue')
+        // },
         // {
         //     path: '/scores',
         //     component: () => import('@/views/ScoreManagement.vue')
