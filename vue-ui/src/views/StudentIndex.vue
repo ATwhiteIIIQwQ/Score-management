@@ -1,5 +1,33 @@
 <template>
     <div class="container">
+        <form @submit.prevent="handleSearch">
+            <div class="row mb-3">
+                <label for="studentNum" class="col-form-label col-1 text-center">学号</label>
+                <div class="col-2">
+                    <input id="studentNum" v-model="student.studentNum" class="form-control" placeholder="学号">
+                </div>
+                <label for="studentName" class="col-form-label col-1 text-center">姓名</label>
+                <div class="col-2">
+                    <input id="studentName" v-model="student.studentName" class="form-control" placeholder="姓名">
+                </div>
+                <label for="studentGrade" class="col-form-label col-1 text-center">年级</label>
+                <div class="col-2">
+                    <input id="studentGrade" v-model="student.studentGrade" class="form-control" type="number" placeholder="年级">
+                </div>
+                <label for="studentClass" class="col-form-label col-1 text-center">班级</label>
+                <div class="col-2">
+                    <input id="studentClass" v-model="student.studentClass" class="form-control" placeholder="班级">
+                </div>
+            </div>
+            <button 
+                type="submit" 
+                class="btn btn-primary"
+                >
+                搜索
+            </button>
+            <button type="button" class="btn btn-secondary m-2" @click="handleReset">重置</button>
+        </form>
+
       <h2>学生列表</h2>
       <table class="table table-hover table-striped">
         <thead>
@@ -20,8 +48,8 @@
               <td>{{ student.studentGrade }}</td>
               <td>{{ student.studentClass }}</td>
               <td>
-                <button class="btn btn-success" @click="deleteStudent(student.studentId)">修改</button>
-                <button class="btn btn-danger" @click="deleteStudent(student.studentId)">删除</button>
+                <button class="btn btn-success btn-sm" @click="deleteStudent(student.studentId)">修改</button>
+                <button class="btn btn-danger btn-sm" @click="deleteStudent(student.studentId)">删除</button>
               </td>
             </tr>
         </tbody>
@@ -41,27 +69,27 @@
             <div class="modal-body">
               <form @submit.prevent="handleSubmit">
                 <div class="row mb-3">
-                  <label for="studentNum" class="col-form-label col-2">学号</label>
+                  <label for="studentNum" class="col-form-label col-2 text-center">学号</label>
                   <div class="col-10">
-                    <input id="studentNum" v-model="student.studentNum" class="form-control" placeholder="学号">
+                    <input id="studentNum" v-model="form.studentNum" class="form-control" placeholder="学号">
                   </div>
                 </div>
                 <div class="row mb-3">
-                  <label for="studentName" class="col-form-label col-2">姓名</label>
+                  <label for="studentName" class="col-form-label col-2 text-center">姓名</label>
                   <div class="col-10">
-                    <input id="studentName" v-model="student.studentName" class="form-control" placeholder="姓名">
+                    <input id="studentName" v-model="form.studentName" class="form-control" placeholder="姓名">
                   </div>
                 </div>
                 <div class="row mb-3">
-                  <label for="studentGrade" class="col-form-label col-2">年级</label>
+                  <label for="studentGrade" class="col-form-label col-2 text-center">年级</label>
                   <div class="col-10">
-                    <input id="studentGrade" v-model="student.studentGrade" class="form-control" type="number" placeholder="年级">
+                    <input id="studentGrade" v-model="form.studentGrade" class="form-control" type="number" placeholder="年级">
                   </div>
                 </div>
                 <div class="row mb-3">
-                  <label for="studentClass" class="col-form-label col-2">班级</label>
+                  <label for="studentClass" class="col-form-label col-2 text-center">班级</label>
                   <div class="col-10">
-                    <input id="studentClass" v-model="student.studentClass" class="form-control" placeholder="班级">
+                    <input id="studentClass" v-model="form.studentClass" class="form-control" placeholder="班级">
                   </div>
                 </div>
               </form>
@@ -94,6 +122,12 @@
           studentName: '',
           studentGrade: null,
           studentClass: '',
+        },
+        form: {
+          studentNum: '',
+          studentName: '',
+          studentGrade: null,
+          studentClass: '',
         }
       };
     },
@@ -121,12 +155,35 @@
       },
       async handleSubmit() {
         try {
-          await studentApi.addStudent(this.student);
+          await studentApi.addStudent(this.form);
           this.loadStudents(); // 刷新列表
-          this.student = { studentNum: '', studentName: '', studentGrade: '', studentClass: '' }; // 清空表单
+          this.form = { studentNum: '', studentName: '', studentGrade: '', studentClass: '' }; // 清空表单
         } catch (error) {
           console.error('添加失败:', error);
         }
+      },
+      async handleSearch() {
+      try {
+        // 过滤空值参数
+        const params = Object.fromEntries(
+          Object.entries(this.form)
+            .filter(([_, v]) => v !== '' && v !== null)
+        );
+        
+        const response = await studentApi.searchStudents(params);
+        this.students = response.data;
+      } catch (error) {
+        console.error('搜索失败:', error);
+      }
+    },
+      handleReset() {
+        this.form = {
+          studentNum: '',
+          studentName: '',
+          studentGrade: null,
+          studentClass: '',
+        }
+        this.loadStudents();
       },
     }
   };
