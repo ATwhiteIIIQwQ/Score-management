@@ -35,15 +35,15 @@ public class ScoreServiceImpl implements ScoreService {
         List<Object> params = new ArrayList<>();
         StringBuilder sql = new StringBuilder("INSERT INTO oop_score SET ");
 
-        if (score.getStudentId() != 0) {
+        if (score.getStudentId() != null) {
             sql.append("student_id = ?, ");
             params.add(score.getStudentId());
         }
-        if (score.getCourseId() != 0) {
+        if (score.getCourseId() != null) {
             sql.append("course_id = ?, ");
             params.add(score.getCourseId());
         }
-        if (score.getScore() != 0) {
+        if (score.getScore() != null) {
             sql.append("score = ?, ");
             params.add(score.getScore());
         }
@@ -59,20 +59,20 @@ public class ScoreServiceImpl implements ScoreService {
     }
 
     @Override
-    public String updateScore(int scoreId, Score score) {
+    public String updateScore(Integer scoreId, Score score) {
         //修改信息操作
         List<Object> params = new ArrayList<>();
         StringBuilder sql = new StringBuilder("UPDATE oop_score SET ");
 
-        if (score.getStudentId() != 0) {
+        if (score.getStudentId() != null) {
             sql.append("course_name = ?, ");
             params.add(score.getStudentId());
         }
-        if (score.getScoreId() != 0) {
+        if (score.getScoreId() != null) {
             sql.append("course_credit = ?, ");
             params.add(score.getScoreId());
         }
-        if (score.getScore() != 0) {
+        if (score.getScore() != null) {
             sql.append("score = ?, ");
             params.add(score.getScore());
         }
@@ -90,7 +90,7 @@ public class ScoreServiceImpl implements ScoreService {
     }
 
     @Override
-    public String deleteScore(int scoreId) {
+    public String deleteScore(Integer scoreId) {
         //删除信息操作
         String sql = "DELETE FROM oop_score WHERE score_id = ?";
         int rows = jdbcTemplate.update(sql, scoreId);
@@ -103,19 +103,15 @@ public class ScoreServiceImpl implements ScoreService {
         List<Object> params = new ArrayList<>();
         StringBuilder sql = new StringBuilder("SELECT * FROM oop_course WHERE 1=1 ");
 
-        if (score.getScoreId() != 0) {
-            sql.append(" AND score_id = ?");
-            params.add(score.getScoreId());
-        }
-        if (score.getStudentId() != 0) {
+        if (score.getStudentId() != null) {
             sql.append("AND student_id = ? ");
             params.add(score.getStudentId());
         }
-        if (score.getCourseId() != 0) {
+        if (score.getCourseId() != null) {
             sql.append("AND course_id = ? ");
             params.add(score.getCourseId());
         }
-        if (score.getScore() != 0) {
+        if (score.getScore() != null) {
             sql.append("AND score = ? ");
             params.add(score.getScore());
         }

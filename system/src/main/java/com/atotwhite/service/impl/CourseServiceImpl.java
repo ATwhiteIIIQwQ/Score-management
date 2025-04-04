@@ -38,7 +38,7 @@ public class CourseServiceImpl implements CourseService {
             sql.append("course_name = ?, ");
             params.add(course.getCourseName());
         }
-        if (course.getCourseCredit() != 0) {
+        if (course.getCourseCredit() != null) {
             sql.append("course_credit = ?, ");
             params.add(course.getCourseCredit());
         }
@@ -54,7 +54,7 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public String updateCourse(int courseId, Course course) {
+    public String updateCourse(Integer courseId, Course course) {
         //修改信息操作
         List<Object> params = new ArrayList<>();
         StringBuilder sql = new StringBuilder("UPDATE oop_course SET ");
@@ -63,7 +63,7 @@ public class CourseServiceImpl implements CourseService {
             sql.append("course_name = ?, ");
             params.add(course.getCourseName());
         }
-        if (course.getCourseCredit() != 0) {
+        if (course.getCourseCredit() != null) {
             sql.append("course_credit = ?, ");
             params.add(course.getCourseCredit());
         }
@@ -81,7 +81,7 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public String deleteCourse(int courseId) {
+    public String deleteCourse(Integer courseId) {
         //删除信息操作
         String sql = "DELETE FROM oop_course WHERE course_id = ?";
         int rows = jdbcTemplate.update(sql, courseId);
@@ -94,15 +94,11 @@ public class CourseServiceImpl implements CourseService {
         List<Object> params = new ArrayList<>();
         StringBuilder sql = new StringBuilder("SELECT * FROM oop_course WHERE 1=1 ");
 
-        if (course.getCourseId() != 0) {
-            sql.append("AND course_id = ?");
-            params.add(course.getCourseId());
-        }
         if (course.getCourseName() != null) {
             sql.append("AND course_name LIKE ? ");
             params.add("%" + course.getCourseName() + "% ");
         }
-        if (course.getCourseCredit() != 0) {
+        if (course.getCourseCredit() != null) {
             sql.append("AND course_credit = ? ");
             params.add(course.getCourseCredit());
         }

@@ -19,12 +19,7 @@
                     <input id="studentClass" v-model="student.studentClass" class="form-control" placeholder="班级">
                 </div>
             </div>
-            <button 
-                type="submit" 
-                class="btn btn-primary"
-                >
-                搜索
-            </button>
+            <button type="submit" class="btn btn-primary">搜索</button>
             <button type="button" class="btn btn-secondary m-2" @click="handleReset">重置</button>
         </form>
 
@@ -48,22 +43,22 @@
               <td>{{ student.studentGrade }}</td>
               <td>{{ student.studentClass }}</td>
               <td>
-                <button class="btn btn-success btn-sm" @click="deleteStudent(student.studentId)">修改</button>
+                <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#Modal" @click="loadStudent(student)">修改</button>
                 <button class="btn btn-danger btn-sm" @click="deleteStudent(student.studentId)">删除</button>
               </td>
             </tr>
         </tbody>
       </table>
 
-      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Modal">
         添加学生
       </button>
 
-      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal fade" id="Modal" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
             <div class="modal-header">
-              <h1 class="modal-title fs-5" id="exampleModalLabel">添加学生</h1>
+              <h1 class="modal-title fs-5" id="ModalLabel">添加学生</h1>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -119,16 +114,16 @@
         students: [],
         studentId: null,
         student: {
-          studentNum: '',
-          studentName: '',
+          studentNum: null,
+          studentName: null,
           studentGrade: null,
-          studentClass: '',
+          studentClass: null,
         },
         form: {
-          studentNum: '',
-          studentName: '',
+          studentNum: null,
+          studentName: null,
           studentGrade: null,
-          studentClass: '',
+          studentClass: null,
         }
       };
     },
@@ -148,7 +143,7 @@
         if (confirm('确定删除学生吗？')) {
           try {
             await studentApi.deleteStudent(studentId);
-            this.loadStudents(); // 刷新列表
+            this.loadStudents();
           } catch (error) {
             console.error('删除失败:', error);
           }
@@ -156,43 +151,47 @@
       },
       async handleSubmit() {
         if (this.studentId) {
-          await this.handleUpdate(this.studentId, this.student);
+          try {
+            await studentApi.updateStudent(this.studentId, this.form);
+            this.loadStudents();
+            this.studentId = null;
+            this.form = { studentNum: null, studentName: null, studentGrade: null, studentClass: null };
+          } catch (error) {
+            console.error('更新失败:', error);
+          }
         } else {
           try { 
-            await studentApi.addStudent(this.student);
+            await studentApi.addStudent(this.form);
             this.loadStudents();
-            this.student = { studentNum: '', studentName: '', studentGrade: '', studentClass: '' };
+            this.form = { studentNum: null, studentName: null, studentGrade: null, studentClass: null };
           } catch (error) {
             console.error('添加失败:', error);
           }
         }
       },
-      // 在methods中添加新的方法
-      async loadStudentForEdit(studentId) {
+      async handleSearch() {
         try {
-          // const response = await studentApi.getStudentById(studentId);
-          // this.student = response.data;
-          this.studentId = studentId;
+          const response = await studentApi.searchStudents(this.student);
+          this.students = response.data; 
+        } catch (error) {
+          console.error('搜索失败:', error);
+        }
+      },
+      handleReset() {
+        this.student = { studentNum: null, studentName: null, studentGrade: null, studentClass: null };
+        this.loadStudents();  
+      },
+      async loadStudent(student) {
+        try {
+          this.form.studentNum = student.studentNum;
+          this.form.studentName = student.studentName;
+          this.form.studentGrade = student.studentGrade;
+          this.form.studentClass = student.studentClass;
+          this.studentId = student.studentId;
         } catch (error) {
           console.error('加载学生信息失败:', error);
         }
       },
-      async handleUpdate(studentId, student) {
-        try {
-          // 修改参数为完整的对象
-          await studentApi.updateStudent(studentId, {
-            studentNum: student.studentNum,
-            studentName: student.studentName,
-            studentGrade: student.studentGrade,
-            studentClass: student.studentClass
-          });
-          this.loadStudents();
-          this.studentId = null;
-          this.student = { studentNum: '', studentName: '', studentGrade: '', studentClass: '' };
-        } catch (error) {
-          console.error('更新失败:', error);
-        }
-      }
     }
   };
 </script>

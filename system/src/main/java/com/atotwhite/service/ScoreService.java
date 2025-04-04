@@ -7,7 +7,7 @@ import java.util.List;
 public interface ScoreService {
     List<Score> showAllScores();
     String addScore(Score score);
-    String updateScore(int scoreId, Score score);
-    String deleteScore(int scoreId);
+    String updateScore(Integer scoreId, Score score);
+    String deleteScore(Integer scoreId);
     List<Score> searchScore(Score score);
 }

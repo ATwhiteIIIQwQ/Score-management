@@ -28,17 +28,17 @@ public class StudentController {
     }
 
     @PutMapping("/{id}")
-    public String edit(@PathVariable int id, @RequestBody Student student) {
+    public String edit(@PathVariable Integer id, @RequestBody Student student) {
         return studentService.updateStudent(id, student);
     }
 
     @DeleteMapping("/{id}")
-    public String remove(@PathVariable int id) {
+    public String remove(@PathVariable Integer id) {
         return studentService.deleteStudent(id);
     }
 
     @GetMapping("/search")
-    public List<Student> search(@RequestParam Student student) {
+    public List<Student> search(@ModelAttribute Student student) {
         return studentService.searchStudent(student);
     }
 }
