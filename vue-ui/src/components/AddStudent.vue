@@ -29,7 +29,6 @@ export default {
     async handleSubmit() {
       try {
         await scoreApi.addStudent(this.student);
-        this.$emit('student-added'); // 通知父组件刷新
         this.student = { studentNum: '', studentName: '', studentGrade: '', studentClass: '' }; // 清空表单
       } catch (error) {
         console.error('添加失败:', error);

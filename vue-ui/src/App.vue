@@ -1,7 +1,7 @@
 <template>
-  <div id="app">
+  <div id="app app-container">
     <NavBar />
-    <main class="main">
+    <main class="main-container">
       <router-view />
     </main>  
   </div>
@@ -18,9 +18,15 @@ export default {
 </script>
 
 <style scoped>
-.main {
+.app-container {
+  display: flex;
+  min-height: 100vh;
+}
+.main-container {
   flex: 1;
+  margin-left: 250px;
   padding: 20px;
+  overflow-y: auto;
 }
 </style>
 
