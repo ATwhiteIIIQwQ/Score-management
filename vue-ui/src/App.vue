@@ -25,7 +25,7 @@ export default {
 .main-container {
   flex: 1;
   margin-left: 250px;
-  padding: 20px;
+  padding: 25px;
   overflow-y: auto;
 }
 </style>

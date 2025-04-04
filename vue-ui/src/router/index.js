@@ -13,7 +13,7 @@ const Router = createRouter({
         // },
         // {
         //     path: '/scores',
-        //     component: () => import('@/views/ScoreManagement.vue')
+        //     component: () => import('@/views/ScoreIndex.vue')
         // },
         {
             path: '/',

@@ -1,5 +1,10 @@
 <template>
     <div class="sidebar bg-dark text-white vh-100 p-3">
+        <div class="d-flex align-items-center">
+            <img src="../assets/icons/logo.svg" alt="Logo" class="m-1" height="35px">
+            <strong class="text-center p-2" style="font-size:x-large;">成绩管理系统</strong>
+        </div>
+        <hr class="bg-white">
         <nav class="nav flex-column">
             <router-link 
                 to="/students" 
