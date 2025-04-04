@@ -20,7 +20,13 @@
               <td>{{ student.studentGrade }}</td>
               <td>{{ student.studentClass }}</td>
               <td>
-                <button class="btn btn-success" @click="deleteStudent(student.studentId)">修改</button>
+                <button 
+                  class="btn btn-success" 
+                  data-bs-toggle="modal" 
+                  data-bs-target="#exampleModal" 
+                  @click="loadStudentForEdit(student.studentId)">  <!-- 修改点击事件 -->
+                  修改
+                </button>
                 <button class="btn btn-danger" @click="deleteStudent(student.studentId)">删除</button>
               </td>
             </tr>
@@ -89,6 +95,7 @@
     data() {
       return {
         students: [],
+        studentId: null,
         student: {
           studentNum: '',
           studentName: '',
@@ -120,14 +127,44 @@
         }
       },
       async handleSubmit() {
-        try {
-          await studentApi.addStudent(this.student);
-          this.loadStudents(); // 刷新列表
-          this.student = { studentNum: '', studentName: '', studentGrade: '', studentClass: '' }; // 清空表单
-        } catch (error) {
-          console.error('添加失败:', error);
+        if (this.studentId) {
+          await this.handleUpdate(this.studentId, this.student);
+        } else {
+          try { 
+            await studentApi.addStudent(this.student);
+            this.loadStudents();
+            this.student = { studentNum: '', studentName: '', studentGrade: '', studentClass: '' };
+          } catch (error) {
+            console.error('添加失败:', error);
+          }
         }
       },
+      // 在methods中添加新的方法
+      async loadStudentForEdit(studentId) {
+        try {
+          // const response = await studentApi.getStudentById(studentId);
+          // this.student = response.data;
+          this.studentId = studentId;
+        } catch (error) {
+          console.error('加载学生信息失败:', error);
+        }
+      },
+      async handleUpdate(studentId, student) {
+        try {
+          // 修改参数为完整的对象
+          await studentApi.updateStudent(studentId, {
+            studentNum: student.studentNum,
+            studentName: student.studentName,
+            studentGrade: student.studentGrade,
+            studentClass: student.studentClass
+          });
+          this.loadStudents();
+          this.studentId = null;
+          this.student = { studentNum: '', studentName: '', studentGrade: '', studentClass: '' };
+        } catch (error) {
+          console.error('更新失败:', error);
+        }
+      }
     }
   };
 </script>
