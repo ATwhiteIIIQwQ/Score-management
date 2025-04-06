@@ -19,11 +19,14 @@ CREATE TABLE IF NOT EXISTS `oop_user` (
   `user_id` int NOT NULL AUTO_INCREMENT COMMENT '用户ID',
   `user_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_german2_ci DEFAULT NULL,
   `user_password` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_german2_ci DEFAULT NULL,
-  `user_role` varchar(50) COLLATE utf8mb4_german2_ci DEFAULT NULL,
+  `user_role` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_german2_ci DEFAULT NULL,
   PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_german2_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_german2_ci;
 
--- 数据导出被取消选择。
+-- 正在导出表  ate.oop_user 的数据：~1 rows (大约)
+DELETE FROM `oop_user`;
+INSERT INTO `oop_user` (`user_id`, `user_name`, `user_password`, `user_role`) VALUES
+	(1, 'admin', '123456', 'admin');
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
