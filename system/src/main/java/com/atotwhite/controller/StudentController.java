@@ -1,7 +1,7 @@
 package com.atotwhite.controller;
 
 import com.atotwhite.domain.Student;
-import com.atotwhite.service.impl.StudentServiceImpl;
+import com.atotwhite.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +14,7 @@ import java.util.List;
 public class StudentController {
 
     @Autowired
-    private StudentServiceImpl studentService;
+    private StudentService studentService;
 
     @GetMapping("/list")
     public List<Student> list() {

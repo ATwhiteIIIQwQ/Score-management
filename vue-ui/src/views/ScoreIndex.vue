@@ -20,7 +20,7 @@
             <input id="score" v-model="score.score" class="form-control me-3" type="number" style="width: 250px;">
           </div>
           <button type="submit" class="btn btn-primary m-1">搜索</button>
-          <button type="button" class="btn btn-success m-1" data-bs-toggle="modal" data-bs-target="#Modal" @click="resetFrom">添加</button>
+          <button type="button" class="btn btn-success m-1" data-bs-toggle="modal" data-bs-target="#Modal" @click="resetFrom" :class="{ disabled: currentUserRole === '用户' }">添加</button>
           <button type="button" class="btn btn-secondary m-1" @click="resetScore">重置</button>
         </form>
       </div>
@@ -51,12 +51,14 @@
                   data-bs-toggle="modal" 
                   data-bs-target="#Modal"
                   style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem; margin-right: 10px;"
+                  :class="{ disabled: currentUserRole === '用户' }"
                   @click="loadScore(score)">
                   编辑
                 </button>
                 <button
                   class="btn btn-outline-danger btn-sm"
                   style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;"
+                  :class="{ disabled: currentUserRole === '用户' }"
                   @click="deleteScore(score.scoreId)">
                   删除
                 </button>
@@ -199,8 +201,14 @@ export default {
       totalPages: 0,
       totalElements: 0,
       currentPage: 1,
-      pageSize: 10
+      pageSize: 10,
+      currentUserRole: JSON.parse(localStorage.getItem('userInfo'))?.userRole || '',
     };
+  },
+  beforeMount() {
+    if (!localStorage.getItem('userInfo')) {
+      this.$router.replace('/LoginIndex')
+    }
   },
   mounted() {
     this.loadScores(this.currentPage, this.pageSize);

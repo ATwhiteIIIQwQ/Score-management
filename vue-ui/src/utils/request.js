@@ -11,6 +11,10 @@ const service = axios.create({
 // 请求拦截器
 service.interceptors.request.use(
   config => {
+    const token = localStorage.getItem('userInfo')?.token
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`
+    }
     return config
   },
   error => {
@@ -20,15 +24,16 @@ service.interceptors.request.use(
 
 // 响应拦截器
 service.interceptors.response.use(
-    response => {
-      return response.data; // 直接返回后端响应的数据
-    },
-    error => {
-      if (error.response && error.response.status === 401) {
-        // router.push('/login')
-      }
-      return Promise.reject(error)
+  response => {
+    return response.data; // 直接返回后端响应的数据
+  },
+  error => {
+    if (error.response.status === 401) {
+      localStorage.removeItem('userInfo')
+      window.location.href = '/login'
     }
-  )
+    return Promise.reject(error)
+  }
+)
 
 export default service

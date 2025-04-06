@@ -1,6 +1,6 @@
 <template>
-    <div class="sidebar bg-dark text-white vh-100 p-3">
-        <div class="d-flex align-items-center">
+    <div class="sidebar bg-dark text-white vh-100 p-3 d-flex flex-column">
+        <div class="d-flex align-items-center border-down">
             <img src="../assets/icons/logo.svg" alt="Logo" class="m-1" height="35px">
             <strong class="text-center p-2" style="font-size:x-large;">成绩管理系统</strong>
         </div>
@@ -24,9 +24,46 @@
                 active-class="active">
                 成绩管理
             </router-link>
+            <router-link 
+                to="/users" 
+                class="nav-link text-white"
+                :style="{ display: userInfo.userRole === '用户' ? 'none' : 'block' }"
+                active-class="active">
+                用户管理
+            </router-link>
         </nav>
+        
+        <div class="mt-auto">
+            <hr class="bg-white">
+            <div v-if="userInfo" class="d-flex align-items-center justify-content-between">
+                <strong class="text-white" style="margin-left: 10px;">{{ userInfo.userName }}</strong>
+                <button 
+                    @click="handleLogout"
+                    class="btn btn-sm btn-outline-danger"
+                    title="退出登录"
+                >退出登录
+                    <i class="bi bi-box-arrow-right"></i>
+                </button>
+            </div>
+        </div>
     </div>
 </template>
+
+<script>
+export default {
+    data() {
+        return {
+            userInfo: JSON.parse(localStorage.getItem('userInfo'))
+        }
+    },
+    methods: {
+        handleLogout() {
+            localStorage.removeItem('userInfo')
+            this.$router.replace('/login')
+        }
+    }
+}
+</script>
 
 <style scoped>
 .sidebar {
@@ -50,4 +87,9 @@
     font-weight: bold;
 }
 
+.btn-outline-danger {
+    --bs-btn-color: #dc3545;
+    --bs-btn-border-color: #dc3545;
+    --bs-btn-hover-bg: #dc3545;
+}
 </style>

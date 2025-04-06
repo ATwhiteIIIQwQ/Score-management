@@ -1,7 +1,7 @@
 package com.atotwhite.controller;
 
 import com.atotwhite.domain.Score;
-import com.atotwhite.service.impl.ScoreServiceImpl;
+import com.atotwhite.service.ScoreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +14,7 @@ import java.util.List;
 public class ScoreController {
 
     @Autowired
-    private ScoreServiceImpl scoreService;
+    private ScoreService scoreService;
 
     @GetMapping("/list")
     public List<Score> list() {

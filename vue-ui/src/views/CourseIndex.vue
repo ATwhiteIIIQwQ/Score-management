@@ -10,7 +10,7 @@
             <input id="courseCredit" v-model="course.courseCredit" class="form-control me-3" type="number" style="width: 250px;">
           </div>
           <button type="submit" class="btn btn-primary m-1">搜索</button>
-          <button type="button" class="btn btn-success m-1" data-bs-toggle="modal" data-bs-target="#Modal" @click="resetFrom">添加</button>
+          <button type="button" class="btn btn-success m-1" data-bs-toggle="modal" data-bs-target="#Modal" @click="resetFrom" :class="{ disabled: currentUserRole === '用户' }">添加</button>
           <button type="button" class="btn btn-secondary m-1" @click="resetCourse">重置</button>
         </form>
       </div>
@@ -39,6 +39,7 @@
                   data-bs-toggle="modal" 
                   data-bs-target="#Modal"
                   style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem; margin-right: 10px;"
+                  :class="{ disabled: currentUserRole === '用户' }"
                   @click="loadCourse(course)"
                 >
                   编辑
@@ -46,6 +47,7 @@
                 <button 
                   class="btn btn-outline-danger btn-sm"
                   style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;"
+                  :class="{ disabled: currentUserRole === '用户' }"
                   @click="deleteCourse(course.courseId)"
                 >
                   删除
@@ -172,7 +174,13 @@ export default {
       totalElements: 0,
       currentPage: 1,
       pageSize: 10,
+      currentUserRole: JSON.parse(localStorage.getItem('userInfo'))?.userRole || '',
     };
+  },
+  beforeMount() {
+    if (!localStorage.getItem('userInfo')) {
+      this.$router.replace('/LoginIndex')
+    }
   },
   mounted() {
     this.loadCourses(this.currentPage, this.pageSize);

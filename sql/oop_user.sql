@@ -19,6 +19,7 @@ CREATE TABLE IF NOT EXISTS `oop_user` (
   `user_id` int NOT NULL AUTO_INCREMENT COMMENT '用户ID',
   `user_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_german2_ci DEFAULT NULL,
   `user_password` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_german2_ci DEFAULT NULL,
+  `user_role` varchar(50) COLLATE utf8mb4_german2_ci DEFAULT NULL,
   PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_german2_ci;
 

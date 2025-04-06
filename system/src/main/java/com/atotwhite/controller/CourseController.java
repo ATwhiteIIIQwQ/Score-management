@@ -1,7 +1,7 @@
 package com.atotwhite.controller;
 
 import com.atotwhite.domain.Course;
-import com.atotwhite.service.impl.CourseServiceImpl;
+import com.atotwhite.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +14,7 @@ import java.util.List;
 public class CourseController {
 
     @Autowired
-    private CourseServiceImpl courseService;
+    private CourseService courseService;
 
     @GetMapping("/list")
     public List<Course> list() {

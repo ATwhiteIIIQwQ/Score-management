@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { getCurrentInstance } from 'vue'
 
 const Router = createRouter({
     history: createWebHistory(), // 去掉 URL 中的 # 
@@ -16,10 +17,33 @@ const Router = createRouter({
             component: () => import('@/views/ScoreIndex.vue')
         },
         {
+            path: '/users',
+            component: () => import('@/views/UserIndex.vue')
+        },
+        {
+            path: '/login',
+            component: () => import('@/views/LoginIndex.vue')
+        },
+        {
             path: '/',
-            redirect: '/students'
-        } 
+            redirect: '/login'
+        }
     ]
+})
+
+Router.beforeEach((to, from, next) => {
+  const isAuthenticated = localStorage.getItem('userInfo')
+  
+  if (to.path !== '/login' && !isAuthenticated) {
+    next('/login')
+  }
+
+  else if (to.path === '/login' && isAuthenticated) {
+    next(from.path || '/students')
+  } 
+  else {
+    next()
+  }
 })
 
 export default Router;
