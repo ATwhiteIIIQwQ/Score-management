@@ -18,7 +18,9 @@
 CREATE TABLE IF NOT EXISTS `oop_score` (
   `score_id` int NOT NULL AUTO_INCREMENT,
   `student_id` int DEFAULT NULL,
+  `student_name` varchar(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_german2_ci DEFAULT NULL,
   `course_id` int DEFAULT NULL,
+  `course_name` varchar(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_german2_ci DEFAULT NULL,
   `score` int DEFAULT NULL,
   PRIMARY KEY (`score_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_german2_ci;
