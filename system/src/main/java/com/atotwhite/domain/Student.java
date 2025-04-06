@@ -4,10 +4,10 @@ public class Student {
     private Integer studentId;
     private String studentNum;
     private String studentName;
-    private Integer studentGrade;
+    private String studentGrade;
     private String studentClass;
 
-    public Student(Integer studentId, String studentNum, String studentName, Integer studentGrade, String studentClass) {
+    public Student(Integer studentId, String studentNum, String studentName, String studentGrade, String studentClass) {
         this.studentId = studentId;
         this.studentNum = studentNum;
         this.studentName = studentName;
@@ -21,8 +21,8 @@ public class Student {
     public void setStudentNum(String studentNum) {this.studentNum = studentNum;}
     public String getStudentName() {return studentName;}
     public void setStudentName(String studentName) {this.studentName = studentName;}
-    public Integer getStudentGrade() {return studentGrade;}
-    public void setStudentGrade(Integer studentGrade) {this.studentGrade = studentGrade;}
+    public String getStudentGrade() {return studentGrade;}
+    public void setStudentGrade(String studentGrade) {this.studentGrade = studentGrade;}
     public String getStudentClass() {return studentClass;}
     public void setStudentClass(String studentClass) {this.studentClass = studentClass;}
 

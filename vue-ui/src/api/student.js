@@ -4,6 +4,9 @@ export default {
     getAllStudents() {
         return service.get('/student/list')
     },
+    getStudentByPage(pageNum, pageSize) {
+        return service.get('/student/page', { params: { pageNum: pageNum, pageSize: pageSize }}) 
+    },
     addStudent(student) {
         return service.post('/student', student)
     },

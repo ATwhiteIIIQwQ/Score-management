@@ -2,12 +2,15 @@ package com.atotwhite.service.impl;
 
 import com.atotwhite.domain.Student;
 import com.atotwhite.service.StudentService;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 
 @Service
 public class StudentServiceImpl implements StudentService {
@@ -16,18 +19,39 @@ public class StudentServiceImpl implements StudentService {
     private JdbcTemplate jdbcTemplate;
 
     @Override
-    public List<Student> showAllStudent() {
+    public List<Student> getAllStudent() {
         //查看全部信息
         String sql = "SELECT * FROM oop_student";
         return jdbcTemplate.query(sql, (rs, rowNum) ->
-                new Student(
-                        rs.getInt("student_id"),
-                        rs.getString("student_num"),
-                        rs.getString("student_name"),
-                        rs.getInt("student_grade"),
-                        rs.getString("student_class")
-                )
+            new Student(
+                rs.getInt("student_id"),
+                rs.getString("student_num"),
+                rs.getString("student_name"),
+                rs.getString("student_grade"),
+                rs.getString("student_class")
+            )
         );
+    }
+
+    @Override
+    public Page<Student> getStudentByPage(int page, int size) {
+        int offset = (page - 1) * size;
+        String sql = String.format("SELECT * FROM oop_student LIMIT %d OFFSET %d", size, offset);
+        String count = "SELECT COUNT(*) FROM oop_student";
+        
+        List<Student> list = jdbcTemplate.query(sql, (rs, rowNum) ->
+            new Student(
+                rs.getInt("student_id"),
+                rs.getString("student_num"),
+                rs.getString("student_name"),
+                rs.getString("student_grade"),
+                rs.getString("student_class")
+            )
+        );
+        
+        int total = jdbcTemplate.queryForObject(count, Integer.class);
+        
+        return new PageImpl<>(list, PageRequest.of(page-1, size), total);
     }
 
     @Override
@@ -113,20 +137,20 @@ public class StudentServiceImpl implements StudentService {
         StringBuilder sql = new StringBuilder("SELECT * FROM oop_student WHERE 1=1 ");
 
         if (student.getStudentNum() != null) {
-            sql.append("AND student_num = ? ");
-            params.add(student.getStudentNum());
+            sql.append("AND student_num LIKE ? ");
+            params.add("%" + student.getStudentNum() + "%");
         }
         if (student.getStudentName() != null) {
             sql.append("AND student_name LIKE ? ");
-            params.add("%" + student.getStudentName() + "%");  // 移除末尾多余的空格
+            params.add("%" + student.getStudentName() + "%");
         }
         if (student.getStudentGrade() != null) {
             sql.append("AND student_grade = ? ");
-            params.add(student.getStudentGrade());
+            params.add("%" + student.getStudentGrade() + "%");
         }
         if (student.getStudentClass() != null) {
             sql.append("AND student_class LIKE ? ");
-            params.add("%" + student.getStudentClass() + "%");  // 班级字段同样修正
+            params.add("%" + student.getStudentClass() + "%");
         }
 
         sql.delete(sql.length() - 1, sql.length());
@@ -136,7 +160,7 @@ public class StudentServiceImpl implements StudentService {
                 rs.getInt("student_id"),
                 rs.getString("student_num"),
                 rs.getString("student_name"),
-                rs.getInt("student_grade"),
+                rs.getString("student_grade"),
                 rs.getString("student_class")
             )
         );

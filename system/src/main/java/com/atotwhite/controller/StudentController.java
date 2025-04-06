@@ -3,13 +3,13 @@ package com.atotwhite.controller;
 import com.atotwhite.domain.Student;
 import com.atotwhite.service.impl.StudentServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/system/student")
-//允许跨域请求
 @CrossOrigin(origins = "*")
 public class StudentController {
 
@@ -18,8 +18,12 @@ public class StudentController {
 
     @GetMapping("/list")
     public List<Student> list() {
-        List<Student> list = studentService.showAllStudent();
-        return list;
+        return studentService.getAllStudent();
+    }
+
+    @GetMapping("/page")
+    public Page<Student> page(@RequestParam(defaultValue = "1") Integer pageNum, @RequestParam(defaultValue = "10") Integer pageSize) {
+        return studentService.getStudentByPage(pageNum, pageSize);
     }
 
     @PostMapping

@@ -4,10 +4,13 @@ import com.atotwhite.domain.Course;
 import com.atotwhite.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 
 @Service
 public class CourseServiceImpl implements CourseService {
@@ -20,12 +23,31 @@ public class CourseServiceImpl implements CourseService {
         //查看全部信息
         String sql = "SELECT * FROM oop_course";
         return jdbcTemplate.query(sql, (rs, rowNum) ->
-                new Course(
-                        rs.getInt("course_id"),
-                        rs.getString("course_name"),
-                        rs.getInt("course_credit")
-                )
+            new Course(
+                rs.getInt("course_id"),
+                rs.getString("course_name"),
+                rs.getInt("course_credit")
+            )
         );
+    }
+
+    @Override
+    public Page<Course> getCourseByPage(int page, int size) {
+        int offset = (page - 1) * size;
+        String sql = String.format("SELECT * FROM oop_course LIMIT %d OFFSET %d", size, offset);
+        String count = "SELECT COUNT(*) FROM oop_course";
+        
+        List<Course> list = jdbcTemplate.query(sql, (rs, rowNum) ->
+            new Course(
+                rs.getInt("course_id"),
+                rs.getString("course_name"),
+                rs.getInt("course_credit")
+            )
+        );
+        
+        int total = jdbcTemplate.queryForObject(count, Integer.class);
+        
+        return new PageImpl<>(list, PageRequest.of(page-1, size), total);
     }
 
     @Override

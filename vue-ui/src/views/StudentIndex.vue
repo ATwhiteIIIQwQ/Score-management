@@ -1,26 +1,17 @@
 <template>
   <div class="container-fluid">
-    <h2>&nbsp;学生查询</h2>
     <div class="card shadow-sm mb-3">
       <div class="card-body">
         <form @submit.prevent="handleSearch">
-          <div class="row mb-3">
-            <label for="studentNum" class="col-form-label col-1 text-center">学号</label>
-            <div class="col-2">
-              <input id="studentNum" v-model="student.studentNum" class="form-control" placeholder="学号">
-            </div>
-            <label for="studentName" class="col-form-label col-1 text-center">姓名</label>
-            <div class="col-2">
-              <input id="studentName" v-model="student.studentName" class="form-control" placeholder="姓名">
-            </div>
-            <label for="studentGrade" class="col-form-label col-1 text-center">年级</label>
-            <div class="col-2">
-              <input id="studentGrade" v-model="student.studentGrade" class="form-control" type="number" placeholder="年级">
-            </div>
-            <label for="studentClass" class="col-form-label col-1 text-center">班级</label>
-            <div class="col-2">
-              <input id="studentClass" v-model="student.studentClass" class="form-control" placeholder="班级">
-            </div>
+          <div class="d-flex flex-row align-items-center mb-3">
+            <label for="studentNum" class="col-form-label text-center me-2" style="width: 70px;">学号</label>
+            <input id="studentNum" v-model="student.studentNum" class="form-control me-3" style="width: 250px;">
+            <label for="studentName" class="col-form-label text-center me-2" style="width: 70px;">姓名</label>
+            <input id="studentName" v-model="student.studentName" class="form-control me-3" style="width: 250px;">
+            <label for="studentGrade" class="col-form-label text-center me-2" style="width: 70px;">年级</label>
+            <input id="studentGrade" v-model="student.studentGrade" class="form-control me-3" style="width: 250px;">
+            <label for="studentClass" class="col-form-label text-center me-2" style="width: 70px;">班级</label>
+            <input id="studentClass" v-model="student.studentClass" class="form-control me-3" style="width: 250px;">
           </div>
           <button type="submit" class="btn btn-primary m-1">搜索</button>
           <button type="button" class="btn btn-success m-1" data-bs-toggle="modal" data-bs-target="#Modal" @click="resetFrom">添加</button>
@@ -28,8 +19,9 @@
         </form>
       </div>
     </div>
-    <h2>&nbsp;学生列表</h2>
+    
     <div class="card shadow-sm">
+      <h2 class="m-3">学生列表</h2>
       <div class="card-body">
         <table class="table table-hover table-striped">
           <thead>
@@ -57,7 +49,7 @@
                   style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem; margin-right: 10px;"
                   @click="loadStudent(student)"
                 >
-                  修改
+                  编辑
                 </button>
                 <button 
                   class="btn btn-outline-danger btn-sm"
@@ -70,6 +62,42 @@
             </tr>
           </tbody>
         </table>
+        <nav aria-label="Page navigation">
+          <ul class="pagination justify-content-end">
+            <li class="page-item" :class="{ disabled: currentPage === 1  || totalPages === 0 }">
+              <a class="page-link" href="#" @click.prevent="handlePageChange(currentPage - 1)">
+                <span aria-hidden="true">&laquo;</span>
+              </a>
+            </li>
+            <div :style="{ display: totalPages === 0 ? 'none' : 'block' }">
+              <li class="page-item" :style="{ display: currentPage - 1 === 0 ? 'none' : 'block' }">
+                <a class="page-link" href="#" @click.prevent="handlePageChange(currentPage - 1)">
+                  {{ currentPage - 1 }}
+                </a>
+              </li>
+              <li class="page-item active">
+                <a class="page-link" href="#">
+                  {{ currentPage }}
+                </a>
+              </li>
+              <li class="page-item" :style="{ display: currentPage === totalPages ? 'none' : 'block' }">
+                <a class="page-link" href="#" @click.prevent="handlePageChange(currentPage + 1)">
+                  {{ currentPage + 1 }}
+                </a>
+              </li>
+            </div>
+            <li class="page-item" :style="{ display: totalPages === 0 ? 'block' : 'none' }">
+              <a class="page-link" href="#" @click.prevent="handlePageChange(totalPages)">
+                {{ totalPages }}
+              </a>
+            </li>
+            <li class="page-item" :class="{ disabled: currentPage === totalPages || totalPages === 0 }">
+              <a class="page-link" href="#" @click.prevent="handlePageChange(currentPage + 1)">
+                <span aria-hidden="true">&raquo;</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
       </div>
     </div>
   </div>
@@ -88,25 +116,25 @@
             <div class="row mb-3">
               <label for="studentNum" class="col-form-label col-2 text-center">学号</label>
               <div class="col-10">
-                <input id="studentNum" v-model="form.studentNum" class="form-control" placeholder="学号">
+                <input id="studentNum" v-model="form.studentNum" class="form-control">
               </div>
             </div>
             <div class="row mb-3">
               <label for="studentName" class="col-form-label col-2 text-center">姓名</label>
               <div class="col-10">
-                <input id="studentName" v-model="form.studentName" class="form-control" placeholder="姓名">
+                <input id="studentName" v-model="form.studentName" class="form-control">
               </div>
             </div>
             <div class="row mb-3">
               <label for="studentGrade" class="col-form-label col-2 text-center">年级</label>
               <div class="col-10">
-                <input id="studentGrade" v-model="form.studentGrade" class="form-control" type="number" placeholder="年级">
+                <input id="studentGrade" v-model="form.studentGrade" class="form-control" type="number">
               </div>
             </div>
             <div class="row mb-3">
               <label for="studentClass" class="col-form-label col-2 text-center">班级</label>
               <div class="col-10">
-                <input id="studentClass" v-model="form.studentClass" class="form-control" placeholder="班级">
+                <input id="studentClass" v-model="form.studentClass" class="form-control">
               </div>
             </div>
           </form>
@@ -161,10 +189,14 @@
         toastMessage: '',
         toast: null,
         isEdit: false,
+        totalPages: 0,
+        totalElements: 0,
+        currentPage: 1,
+        pageSize: 10,
       };
     },
     mounted() {
-      this.loadStudents();
+      this.loadStudents(this.currentPage, this.pageSize);
       // 初始化Toast
       this.toast = new Toast(this.$refs.toastElement, {
         autohide: true,
@@ -172,13 +204,15 @@
       });
     },
     methods: {
-      async loadStudents() {
+      async loadStudents(currentPage, pageSize) {
         try {
-          const response = await studentApi.getAllStudents();
-          this.students = response;
+          const response = await studentApi.getStudentByPage(currentPage, pageSize);
+          this.students = response.content;
+          this.totalPages = response.totalPages;
+          this.totalElements = response.totalElements;
         } catch (error) {
           console.error('加载学生列表失败:', error);
-          this.toastMessage = '删除失败！';
+          this.toastMessage = '加载学生列表失败！';
           this.toast.show();
         }
       },
@@ -188,6 +222,9 @@
             await studentApi.deleteStudent(studentId);
             this.toastMessage = '删除成功！';
             this.toast.show();
+            if (this.students.length === 1 && this.currentPage > 1) {
+              this.currentPage -= 1;
+            }
             this.loadStudents();
           } catch (error) {
             console.error('删除失败:', error);
@@ -252,10 +289,14 @@
           this.studentId = student.studentId;
         } catch (error) {
           console.error('加载学生信息失败:', error);
-          this.toastMessage = '删除失败！';
+          this.toastMessage = '加载学生信息失败！';
           this.toast.show();
         }
       },
+      async handlePageChange(page) {
+        this.currentPage = page;
+        this.loadStudents(page, this.pageSize);
+      }
     }
   };
 </script>

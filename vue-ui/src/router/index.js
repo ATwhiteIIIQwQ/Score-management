@@ -7,14 +7,14 @@ const Router = createRouter({
             path: '/students',
             component: () => import('@/views/StudentIndex.vue')
         },
-        // {
-        //     path: '/courses',
-        //     component: () => import('@/views/CourseIndex.vue')
-        // },
-        // {
-        //     path: '/scores',
-        //     component: () => import('@/views/ScoreIndex.vue')
-        // },
+        {
+            path: '/courses',
+            component: () => import('@/views/CourseIndex.vue')
+        },
+        {
+            path: '/scores',
+            component: () => import('@/views/ScoreIndex.vue')
+        },
         {
             path: '/',
             redirect: '/students'
