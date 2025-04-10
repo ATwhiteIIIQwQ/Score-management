@@ -11,5 +11,5 @@ public interface CourseService {
     String addCourse(Course course);
     String updateCourse(Integer courseId, Course course);
     String deleteCourse(Integer courseId);
-    List<Course> searchCourse(Course course);
+    Page<Course> searchCourse(int page, int size, String courseName, Integer courseCredit);
 }

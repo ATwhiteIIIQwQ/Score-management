@@ -21,7 +21,11 @@ export default {
     },
     searchUsers(params) {
         return service.get('/user/search', { 
-            params: params 
+            params: {
+                ...params,
+                pageNum: params.pageNum || 1,
+                pageSize: params.pageSize || 10
+            }
         })
     }
 };

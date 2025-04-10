@@ -42,7 +42,11 @@ public class CourseController {
     }
 
     @GetMapping("/search")
-    public List<Course> search(@ModelAttribute Course course) {
-        return courseService.searchCourse(course);
+    public Page<Course> search(
+        @RequestParam(defaultValue = "1") Integer pageNum,
+        @RequestParam(defaultValue = "10") Integer pageSize,
+        @RequestParam(required = false) String courseName,
+        @RequestParam(required = false) Integer courseCredit) {
+        return courseService.searchCourse(pageNum, pageSize, courseName, courseCredit);
     }
 }

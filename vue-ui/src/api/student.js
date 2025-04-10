@@ -1,5 +1,6 @@
 import service from '@/utils/request'
 
+// 修改搜索API调用方式
 export default {
     getAllStudents() {
         return service.get('/student/list')
@@ -17,6 +18,12 @@ export default {
         return service.delete(`/student/${id}`)
     },
     searchStudents(params) {
-        return service.get('/student/search', { params })
+        return service.get('/student/search', { 
+            params: {
+                ...params,
+                pageNum: params.pageNum || 1,
+                pageSize: params.pageSize || 10
+            }
+        })
     }
-};
+}

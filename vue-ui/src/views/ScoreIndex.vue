@@ -74,26 +74,19 @@
                 <span aria-hidden="true">&laquo;</span>
               </a>
             </li>
-            <div :style="{ display: totalPages === 0 ? 'none' : 'block' }">
-              <li class="page-item" :style="{ display: currentPage - 1 === 0 ? 'none' : 'block' }">
-                <a class="page-link" href="#" @click.prevent="handlePageChange(currentPage - 1)">
-                  {{ currentPage - 1 }}
-                </a>
-              </li>
-              <li class="page-item active">
-                <a class="page-link" href="#">
-                  {{ currentPage }}
-                </a>
-              </li>
-              <li class="page-item" :style="{ display: currentPage === totalPages ? 'none' : 'block' }">
-                <a class="page-link" href="#" @click.prevent="handlePageChange(currentPage + 1)">
-                  {{ currentPage + 1 }}
-                </a>
-              </li>
-            </div>
-            <li class="page-item" :style="{ display: totalPages === 0 ? 'block' : 'none' }">
-              <a class="page-link" href="#" @click.prevent="handlePageChange(totalPages)">
-                {{ totalPages }}
+            <li class="page-item" v-if="currentPage > 1 && totalPages != 0">
+              <a class="page-link" href="#" @click.prevent="handlePageChange(currentPage - 1)">
+                {{ currentPage - 1 }}
+              </a>
+            </li>
+            <li class="page-item active">
+              <a class="page-link" href="#">
+                {{ currentPage }}
+              </a>
+            </li>
+            <li class="page-item" v-if="currentPage < totalPages && totalPages != 0">
+              <a class="page-link" href="#" @click.prevent="handlePageChange(currentPage + 1)">
+                {{ currentPage + 1 }}
               </a>
             </li>
             <li class="page-item" :class="{ disabled: currentPage === totalPages || totalPages === 0 }">
@@ -103,6 +96,7 @@
             </li>
           </ul>
         </nav>
+        
       </div>
     </div>
   </div>
@@ -198,6 +192,7 @@ export default {
       toastMessage: '',
       toast: null,
       isEdit: false,
+      isSearch: false,
       totalPages: 0,
       totalElements: 0,
       currentPage: 1,
@@ -228,7 +223,7 @@ export default {
         this.totalElements = response.totalElements;
       } catch (error) {
         console.error('加载分数列表失败:', error);
-        this.toastMessage = '加载分数列表失败！';
+        this.toastMessage = error.message || '加载分数列表失败！';
         this.toast.show();
       }
     },
@@ -238,7 +233,7 @@ export default {
         this.students = response;
       } catch (error) {
         console.error('加载学生列表失败:', error);
-        this.toastMessage = '加载学生列表失败！';
+        this.toastMessage = error.message || '加载学生列表失败！';
         this.toast.show();
       }
     },
@@ -248,7 +243,7 @@ export default {
         this.courses = response;
       } catch (error) {
         console.error('加载课程列表失败:', error);
-        this.toastMessage = '加载课程列表失败！';
+        this.toastMessage = error.message || '加载课程列表失败！';
         this.toast.show();
       }
     },
@@ -264,7 +259,7 @@ export default {
           this.loadScores(this.currentPage, this.pageSize);
         } catch (error) {
           console.error('删除失败:', error);
-          this.toastMessage = '删除失败！';
+          this.toastMessage = error.message || '删除失败！';
           this.toast.show();
         }
       }
@@ -280,7 +275,7 @@ export default {
           this.form = { studentId: null, courseId: null, score: null };
         } catch (error) {
           console.error('更新失败:', error);
-          this.toastMessage = '更新失败！';
+          this.toastMessage = error.message || '更新失败，请检查数据格式！';
           this.toast.show();
         }
       } else {
@@ -292,24 +287,32 @@ export default {
           this.form = { studentId: null, courseId: null, score: null };
         } catch (error) {
           console.error('添加失败:', error);
-          this.toastMessage = '添加失败！';
+          this.toastMessage = error.message || '添加失败，请检查数据格式！';
           this.toast.show();
         }
       }
     },
     async handleSearch() {
       try {
-        const response = await scoreApi.searchScores(this.score);
-        this.scores = response;
+        const params = {
+          ...this.score,
+          pageNum: this.currentPage,
+          pageSize: this.pageSize
+        };
+        const response = await scoreApi.searchScores(params);
+        this.scores = response.content;
+        this.totalPages = response.totalPages;
+        this.totalElements = response.totalElements;
+        this.isSearch = true;
       } catch (error) {
         console.error('搜索失败:', error);
-        this.toastMessage = '搜索失败！';
+        this.toastMessage = error.message || '搜索失败，请检查数据格式！';
         this.toast.show();
       }
     },
     resetScore() {
       this.score = { studentId: null, courseId: null, score: null };
-      this.loadScores(this.currentPage, this.pageSize);
+      this.loadScores();
     },
     resetFrom() {
       this.form = { studentId: null, courseId: null, score: null };
@@ -324,13 +327,17 @@ export default {
         this.scoreId = score.scoreId;
       } catch (error) {
         console.error('加载课程信息失败:', error);
-        this.toastMessage = '加载课程信息失败！';
+        this.toastMessage = error.message || '加载课程信息失败！';
         this.toast.show();
       }
     },
     async handlePageChange(page) {
       this.currentPage = page;
-      this.loadScores(page, this.pageSize);
+      if (this.isSearch) {
+        await this.handleSearch();
+      } else {
+        this.loadScores(page, this.pageSize);
+      }
     }
   }
 };

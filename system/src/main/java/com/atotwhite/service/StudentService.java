@@ -11,5 +11,5 @@ public interface StudentService {
     String addStudent(Student student);
     String updateStudent(Integer studentId, Student student);
     String deleteStudent(Integer studentId);
-    List<Student> searchStudent(Student student);
+    Page<Student> searchStudent(int page, int size, String studentNum, String studentName, String studentGrade, String studentClass);
 }

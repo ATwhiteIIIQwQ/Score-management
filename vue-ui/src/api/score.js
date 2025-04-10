@@ -17,6 +17,12 @@ export default {
         return service.delete(`/score/${id}`)
     },
     searchScores(params) {
-        return service.get('/score/search', { params })
+        return service.get('/score/search', { 
+            params: {
+                ...params,
+                pageNum: params.pageNum || 1,
+                pageSize: params.pageSize || 10
+            }
+        })
     }
 };

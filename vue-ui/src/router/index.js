@@ -39,7 +39,7 @@ Router.beforeEach((to, from, next) => {
   }
 
   else if (to.path === '/login' && isAuthenticated) {
-    next(from.path || '/students')
+    next('/students')
   } 
   else {
     next()

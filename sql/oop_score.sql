@@ -16,16 +16,16 @@
 
 -- 导出  表 ate.oop_score 结构
 CREATE TABLE IF NOT EXISTS `oop_score` (
-  `score_id` int NOT NULL AUTO_INCREMENT,
-  `student_id` int DEFAULT NULL,
-  `student_name` varchar(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_german2_ci DEFAULT NULL,
-  `course_id` int DEFAULT NULL,
-  `course_name` varchar(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_german2_ci DEFAULT NULL,
-  `score` int DEFAULT NULL,
+  `score_id` int NOT NULL AUTO_INCREMENT COMMENT '分数ID',
+  `student_id` int DEFAULT NULL COMMENT '学生ID',
+  `student_name` varchar(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_german2_ci DEFAULT NULL COMMENT '学生名称',
+  `course_id` int DEFAULT NULL COMMENT '课程ID',
+  `course_name` varchar(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_german2_ci DEFAULT NULL COMMENT '课程名称',
+  `score` int DEFAULT NULL COMMENT '分数',
   PRIMARY KEY (`score_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_german2_ci;
 
--- 数据导出被取消选择。
+-- 正在导出表  ate.oop_score 的数据：~0 rows (大约)
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

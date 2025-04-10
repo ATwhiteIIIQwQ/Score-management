@@ -31,16 +31,6 @@ public class ScoreServiceImpl implements ScoreService {
                         rs.getInt("score")
                 )
         );
-        for (Score score : list) {
-            if (score.getStudentId() != null) {
-                String studentName = jdbcTemplate.queryForObject("SELECT student_name FROM oop_student WHERE student_id = ?", String.class, score.getStudentId());
-                score.setStudentName(studentName);
-            }
-            if (score.getCourseId()!= null) {
-                String courseName = jdbcTemplate.queryForObject("SELECT course_name FROM oop_course WHERE course_id =?", String.class, score.getCourseId());
-                score.setCourseName(courseName); 
-            }
-        }
         return list;
     }
 
@@ -60,17 +50,6 @@ public class ScoreServiceImpl implements ScoreService {
                 rs.getInt("score")
             )
         );
-        
-        for (Score score : list) {
-            if (score.getStudentId() != null) {
-                String studentName = jdbcTemplate.queryForObject("SELECT student_name FROM oop_student WHERE student_id = ?", String.class, score.getStudentId());
-                score.setStudentName(studentName);
-            }
-            if (score.getCourseId()!= null) {
-                String courseName = jdbcTemplate.queryForObject("SELECT course_name FROM oop_course WHERE course_id =?", String.class, score.getCourseId());
-                score.setCourseName(courseName); 
-            }
-        }
 
         int total = jdbcTemplate.queryForObject(count, Integer.class);
         
@@ -86,10 +65,17 @@ public class ScoreServiceImpl implements ScoreService {
         if (score.getStudentId() != null) {
             sql.append("student_id = ?, ");
             params.add(score.getStudentId());
+            String studentName = jdbcTemplate.queryForObject("SELECT student_name FROM oop_student WHERE student_id = ?", String.class, score.getStudentId());
+            sql.append("student_name = ?, ");
+            params.add(studentName);
+
         }
         if (score.getCourseId() != null) {
             sql.append("course_id = ?, ");
             params.add(score.getCourseId());
+            String courseName = jdbcTemplate.queryForObject("SELECT course_name FROM oop_course WHERE course_id =?", String.class, score.getCourseId());
+            sql.append("course_name =?, ");
+            params.add(courseName);
         }
         if (score.getScore() != null) {
             sql.append("score = ?, ");
@@ -99,6 +85,7 @@ public class ScoreServiceImpl implements ScoreService {
         if (params.isEmpty()) {
             return "无有效数据";
         }
+
 
         sql.delete(sql.length() - 2, sql.length());
         
@@ -115,10 +102,17 @@ public class ScoreServiceImpl implements ScoreService {
         if (score.getStudentId() != null) {
             sql.append("student_id = ?, ");
             params.add(score.getStudentId());
+            String studentName = jdbcTemplate.queryForObject("SELECT student_name FROM oop_student WHERE student_id = ?", String.class, score.getStudentId());
+            sql.append("student_name = ?, ");
+            params.add(studentName);
+
         }
         if (score.getCourseId() != null) {
             sql.append("course_id = ?, ");
             params.add(score.getCourseId());
+            String courseName = jdbcTemplate.queryForObject("SELECT course_name FROM oop_course WHERE course_id =?", String.class, score.getCourseId());
+            sql.append("course_name =?, ");
+            params.add(courseName);
         }
         if (score.getScore() != null) {
             sql.append("score = ?, ");
@@ -146,27 +140,32 @@ public class ScoreServiceImpl implements ScoreService {
     }
 
     @Override
-    public List<Score> searchScore(Score score) {
-        //查询信息操作
+    public Page<Score> searchScore(int page, int size, Integer studentId, Integer courseId, Integer score) { // 添加参数声明
+        int offset = (page - 1) * size;
         List<Object> params = new ArrayList<>();
-        StringBuilder sql = new StringBuilder("SELECT * FROM oop_score WHERE 1=1 ");
-
-        if (score.getStudentId() != null) {
-            sql.append("AND student_id = ? ");
-            params.add(score.getStudentId());
+        
+        StringBuilder querySql = new StringBuilder("SELECT * FROM oop_score WHERE 1=1 ");
+        StringBuilder countSql = new StringBuilder("SELECT COUNT(*) FROM oop_score WHERE 1=1 ");
+    
+        if (studentId != null) {
+            querySql.append("AND student_id = ? ");
+            countSql.append("AND student_id = ? ");
+            params.add(studentId);
         }
-        if (score.getCourseId() != null) {
-            sql.append("AND course_id = ? ");
-            params.add(score.getCourseId());
+        if (courseId != null) {
+            querySql.append("AND course_id = ? ");
+            countSql.append("AND course_id = ? ");
+            params.add(courseId);
         }
-        if (score.getScore() != null) {
-            sql.append("AND score = ? ");
-            params.add(score.getScore());
+        if (score != null) {
+            querySql.append("AND score = ? ");
+            countSql.append("AND score = ? ");
+            params.add(score);
         }
-
-        sql.delete(sql.length() - 1, sql.length());
-
-        return jdbcTemplate.query(sql.toString(), params.toArray(), (rs, rowNum) ->
+    
+        querySql.append(String.format(" LIMIT %d OFFSET %d", size, offset));
+    
+        List<Score> list = jdbcTemplate.query(querySql.toString(), params.toArray(), (rs, rowNum) ->
             new Score(
                 rs.getInt("score_id"),
                 rs.getInt("student_id"),
@@ -176,6 +175,10 @@ public class ScoreServiceImpl implements ScoreService {
                 rs.getInt("score")
             )
         );
+
+        int total = jdbcTemplate.queryForObject(countSql.toString(), params.toArray(), Integer.class);
+        
+        return new PageImpl<>(list, PageRequest.of(page-1, size), total);
     }
 }
 

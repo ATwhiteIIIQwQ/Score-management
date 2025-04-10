@@ -123,21 +123,27 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> searchUser(User user) {
+    public Page<User> searchUser(int page, int size, String userName, String userRole) {
+        int offset = (page - 1) * size;
         List<Object> params = new ArrayList<>();
-        StringBuilder sql = new StringBuilder("SELECT * FROM oop_user WHERE 1=1 ");
         
-        if (user.getUserName() != null) {
-            sql.append("AND user_name LIKE ? ");
-            params.add("%" + user.getUserName() + "%");
+        StringBuilder querySql = new StringBuilder("SELECT * FROM oop_user WHERE 1=1 ");
+        StringBuilder countSql = new StringBuilder("SELECT COUNT(*) FROM oop_user WHERE 1=1 ");
+    
+        if (userName != null && !userName.isEmpty()) {
+            querySql.append("AND user_name LIKE ? ");
+            countSql.append("AND user_name LIKE ? ");
+            params.add("%" + userName + "%");
         }
-        if (user.getUserRole() != null) {
-            sql.append("AND user_role LIKE ? ");
-            params.add("%" + user.getUserRole() + "%");
+        if (userRole != null && !userRole.isEmpty()) {
+            querySql.append("AND user_role LIKE ? ");
+            countSql.append("AND user_role LIKE ? ");
+            params.add("%" + userRole + "%");
         }
-        
-        sql.delete(sql.length() - 1, sql.length());
-        return jdbcTemplate.query(sql.toString(), params.toArray(), (rs, rowNum) ->
+    
+        querySql.append(String.format(" LIMIT %d OFFSET %d", size, offset));
+    
+        List<User> list = jdbcTemplate.query(querySql.toString(), params.toArray(), (rs, rowNum) ->
             new User(
                 rs.getInt("user_id"),
                 rs.getString("user_name"),
@@ -145,5 +151,9 @@ public class UserServiceImpl implements UserService {
                 rs.getString("user_role")
             )
         );
+    
+        int total = jdbcTemplate.queryForObject(countSql.toString(), params.toArray(), Integer.class);
+        
+        return new PageImpl<>(list, PageRequest.of(page-1, size), total);
     }
 }

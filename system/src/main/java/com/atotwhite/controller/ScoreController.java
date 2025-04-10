@@ -42,8 +42,13 @@ public class ScoreController {
     }
 
     @GetMapping("/search")
-    public List<Score> search(@ModelAttribute Score score) {
-        return scoreService.searchScore(score);
+    public Page<Score> search(
+        @RequestParam(defaultValue = "1") Integer pageNum,
+        @RequestParam(defaultValue = "10") Integer pageSize,
+        @RequestParam(required = false) Integer studentId,
+        @RequestParam(required = false) Integer courseId,
+        @RequestParam(required = false) Integer score) {
+        return scoreService.searchScore(pageNum, pageSize, studentId, courseId, score);
     }
 }
 

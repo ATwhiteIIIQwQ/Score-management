@@ -11,5 +11,5 @@ public interface ScoreService {
     String addScore(Score score);
     String updateScore(Integer scoreId, Score score);
     String deleteScore(Integer scoreId);
-    List<Score> searchScore(Score score);
+    Page<Score> searchScore(int page, int size, Integer studentId, Integer courseId, Integer score);
 }

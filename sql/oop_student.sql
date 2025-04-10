@@ -16,15 +16,15 @@
 
 -- 导出  表 ate.oop_student 结构
 CREATE TABLE IF NOT EXISTS `oop_student` (
-  `student_id` int NOT NULL AUTO_INCREMENT,
-  `student_num` varchar(50) COLLATE utf8mb4_german2_ci DEFAULT NULL,
-  `student_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_german2_ci DEFAULT NULL,
-  `student_grade` int DEFAULT NULL,
-  `student_class` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_german2_ci DEFAULT NULL,
+  `student_id` int NOT NULL AUTO_INCREMENT COMMENT '学生ID',
+  `student_num` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_german2_ci DEFAULT NULL COMMENT '学生学号',
+  `student_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_german2_ci DEFAULT NULL COMMENT '学生姓名',
+  `student_grade` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_german2_ci DEFAULT NULL COMMENT '学生年级',
+  `student_class` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_german2_ci DEFAULT NULL COMMENT '学生班级',
   PRIMARY KEY (`student_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_german2_ci;
 
--- 数据导出被取消选择。
+-- 正在导出表  ate.oop_student 的数据：~0 rows (大约)
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

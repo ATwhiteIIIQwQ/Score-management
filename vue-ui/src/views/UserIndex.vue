@@ -64,26 +64,19 @@
                 <span aria-hidden="true">&laquo;</span>
               </a>
             </li>
-            <div :style="{ display: totalPages === 0 ? 'none' : 'block' }">
-              <li class="page-item" :style="{ display: currentPage - 1 === 0 ? 'none' : 'block' }">
-                <a class="page-link" href="#" @click.prevent="handlePageChange(currentPage - 1)">
-                  {{ currentPage - 1 }}
-                </a>
-              </li>
-              <li class="page-item active">
-                <a class="page-link" href="#">
-                  {{ currentPage }}
-                </a>
-              </li>
-              <li class="page-item" :style="{ display: currentPage === totalPages ? 'none' : 'block' }">
-                <a class="page-link" href="#" @click.prevent="handlePageChange(currentPage + 1)">
-                  {{ currentPage + 1 }}
-                </a>
-              </li>
-            </div>
-            <li class="page-item" :style="{ display: totalPages === 0 ? 'block' : 'none' }">
-              <a class="page-link" href="#" @click.prevent="handlePageChange(totalPages)">
-                {{ totalPages }}
+            <li class="page-item" v-if="currentPage > 1 && totalPages != 0">
+              <a class="page-link" href="#" @click.prevent="handlePageChange(currentPage - 1)">
+                {{ currentPage - 1 }}
+              </a>
+            </li>
+            <li class="page-item active">
+              <a class="page-link" href="#">
+                {{ currentPage }}
+              </a>
+            </li>
+            <li class="page-item" v-if="currentPage < totalPages && totalPages != 0">
+              <a class="page-link" href="#" @click.prevent="handlePageChange(currentPage + 1)">
+                {{ currentPage + 1 }}
               </a>
             </li>
             <li class="page-item" :class="{ disabled: currentPage === totalPages || totalPages === 0 }">
@@ -93,6 +86,7 @@
             </li>
           </ul>
         </nav>
+        
       </div>
     </div>
   </div>
@@ -216,7 +210,7 @@ export default {
             this.totalElements = response.totalElements;
         } catch (error) {
             console.error('加载用户列表失败:', error);
-            this.toastMessage = '加载用户列表失败！';
+            this.toastMessage = error.message || '加载用户列表失败！';
             this.toast.show();
         }
     },
@@ -232,7 +226,7 @@ export default {
                 this.loadUsers();
             } catch (error) {
                 console.error('删除失败:', error);
-                this.toastMessage = '删除失败！';
+                this.toastMessage = error.message || '删除失败！';
                 this.toast.show();
             }
         }
@@ -248,7 +242,7 @@ export default {
           this.form = { userName: null, password: null, userRole: null };
         } catch (error) {
           console.error('更新失败:', error);
-          this.toastMessage = '更新失败！';
+          this.toastMessage = error.message || '更新失败！';
           this.toast.show();
         }
       } else {
@@ -260,7 +254,7 @@ export default {
           this.form = { userName: null, password: null, userRole: null };
         } catch (error) {
           console.error('添加失败:', error);
-          this.toastMessage = '添加失败！';
+          this.toastMessage = error.message || '添加失败！';
           this.toast.show();
         }
       }
@@ -271,7 +265,7 @@ export default {
             this.users = response;
         } catch (error) {
             console.error('搜索失败:', error);
-            this.toastMessage = '搜索失败！';
+            this.toastMessage = error.message || '搜索失败！';
             this.toast.show();
         }
     },
@@ -290,7 +284,7 @@ export default {
         this.form.userRole = user.userRole;
       } catch (error) {
         console.error('加载课程信息失败:', error);
-        this.toastMessage = '加载课程信息失败！';
+        this.toastMessage = error.message || '加载课程信息失败！';
         this.toast.show();
       }
     },

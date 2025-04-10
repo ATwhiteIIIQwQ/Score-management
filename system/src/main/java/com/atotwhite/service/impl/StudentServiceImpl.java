@@ -131,31 +131,37 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public List<Student> searchStudent(Student student) {
-        //查询信息操作
+    public Page<Student> searchStudent(int page, int size, String studentNum, String studentName, String studentGrade, String studentClass) {
+        int offset = (page - 1) * size;
         List<Object> params = new ArrayList<>();
-        StringBuilder sql = new StringBuilder("SELECT * FROM oop_student WHERE 1=1 ");
-
-        if (student.getStudentNum() != null) {
-            sql.append("AND student_num LIKE ? ");
-            params.add("%" + student.getStudentNum() + "%");
+        
+        StringBuilder querySql = new StringBuilder("SELECT * FROM oop_student WHERE 1=1 ");
+        StringBuilder countSql = new StringBuilder("SELECT COUNT(*) FROM oop_student WHERE 1=1 ");
+    
+        if (studentNum != null && !studentNum.isEmpty()) {
+            querySql.append("AND student_num LIKE ? ");
+            countSql.append("AND student_num LIKE ? ");
+            params.add("%" + studentNum + "%");
         }
-        if (student.getStudentName() != null) {
-            sql.append("AND student_name LIKE ? ");
-            params.add("%" + student.getStudentName() + "%");
+        if (studentName != null &&!studentName.isEmpty()) {
+            querySql.append("AND student_name LIKE ? ");
+            countSql.append("AND student_name LIKE ? ");
+            params.add("%" + studentName + "%");
         }
-        if (student.getStudentGrade() != null) {
-            sql.append("AND student_grade = ? ");
-            params.add("%" + student.getStudentGrade() + "%");
+        if (studentGrade != null &&!studentGrade.isEmpty()) {
+            querySql.append("AND student_grade LIKE ? ");
+            countSql.append("AND student_grade LIKE ? ");
+            params.add("%" + studentGrade + "%");
         }
-        if (student.getStudentClass() != null) {
-            sql.append("AND student_class LIKE ? ");
-            params.add("%" + student.getStudentClass() + "%");
+        if (studentClass != null &&!studentClass.isEmpty()) {
+            querySql.append("AND student_class LIKE ? ");
+            countSql.append("AND student_class LIKE ? ");
+            params.add("%" + studentClass + "%");
         }
-
-        sql.delete(sql.length() - 1, sql.length());
-
-        return jdbcTemplate.query(sql.toString(), params.toArray(), (rs, rowNum) ->
+    
+        querySql.append(String.format(" LIMIT %d OFFSET %d", size, offset));
+    
+        List<Student> list = jdbcTemplate.query(querySql.toString(), params.toArray(), (rs, rowNum) ->
             new Student(
                 rs.getInt("student_id"),
                 rs.getString("student_num"),
@@ -164,5 +170,9 @@ public class StudentServiceImpl implements StudentService {
                 rs.getString("student_class")
             )
         );
+    
+        int total = jdbcTemplate.queryForObject(countSql.toString(), params.toArray(), Integer.class);
+        
+        return new PageImpl<>(list, PageRequest.of(page-1, size), total);
     }
 }

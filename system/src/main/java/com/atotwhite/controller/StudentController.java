@@ -42,7 +42,13 @@ public class StudentController {
     }
 
     @GetMapping("/search")
-    public List<Student> search(@ModelAttribute Student student) {
-        return studentService.searchStudent(student);
+    public Page<Student> search(
+        @RequestParam(defaultValue = "1") Integer pageNum,
+        @RequestParam(defaultValue = "10") Integer pageSize,
+        @RequestParam(required = false) String studentNum,
+        @RequestParam(required = false) String studentName,
+        @RequestParam(required = false) String studentGrade,
+        @RequestParam(required = false) String studentClass) {
+        return studentService.searchStudent(pageNum, pageSize, studentNum, studentName, studentGrade, studentClass);
     }
 }

@@ -17,6 +17,12 @@ export default {
         return service.delete(`/course/${id}`)
     },
     searchCourses(params) {
-        return service.get('/course/search', { params })
+        return service.get('/course/search', {
+            params: {
+                ...params,
+                pageNum: params.pageNum || 1,
+                pageSize: params.pageSize || 10
+            }
+        })
     }
 };

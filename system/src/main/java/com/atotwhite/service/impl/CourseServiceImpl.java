@@ -111,28 +111,36 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public List<Course> searchCourse(Course course) {
-        //查询信息操作
+    public Page<Course> searchCourse(int page, int size, String courseName, Integer courseCredit) {
+        int offset = (page - 1) * size;
         List<Object> params = new ArrayList<>();
-        StringBuilder sql = new StringBuilder("SELECT * FROM oop_course WHERE 1=1 ");
-
-        if (course.getCourseName() != null) {
-            sql.append("AND course_name LIKE ? ");
-            params.add("%" + course.getCourseName() + "%");
+        
+        StringBuilder querySql = new StringBuilder("SELECT * FROM oop_course WHERE 1=1 ");
+        StringBuilder countSql = new StringBuilder("SELECT COUNT(*) FROM oop_course WHERE 1=1 ");
+    
+        if (courseName != null && !courseName.isEmpty()) {
+            querySql.append("AND course_name LIKE ? ");
+            countSql.append("AND course_name LIKE ? ");
+            params.add("%" + courseName + "%");
         }
-        if (course.getCourseCredit() != null) {
-            sql.append("AND course_credit = ? ");
-            params.add(course.getCourseCredit());
+        if (courseCredit != null) {
+            querySql.append("AND course_credit = ? ");
+            countSql.append("AND course_credit = ? ");
+            params.add(courseCredit);
         }
-
-        sql.delete(sql.length() - 1, sql.length());
-
-        return jdbcTemplate.query(sql.toString(), params.toArray(), (rs, rowNum) ->
-                new Course(
-                        rs.getInt("course_id"),
-                        rs.getString("course_name"),
-                        rs.getInt("course_credit")
-                )
+    
+        querySql.append(String.format(" LIMIT %d OFFSET %d", size, offset));
+    
+        List<Course> list = jdbcTemplate.query(querySql.toString(), params.toArray(), (rs, rowNum) ->
+            new Course(
+                rs.getInt("course_id"),
+                rs.getString("course_name"),
+                rs.getInt("course_credit")
+            )
         );
+    
+        int total = jdbcTemplate.queryForObject(countSql.toString(), params.toArray(), Integer.class);
+        
+        return new PageImpl<>(list, PageRequest.of(page-1, size), total);
     }
 }

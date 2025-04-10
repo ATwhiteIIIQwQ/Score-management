@@ -13,5 +13,5 @@ public interface UserService {
     String addUser(User user);
     String updateUser(Integer userId, User user);
     String deleteUser(Integer userId);
-    List<User> searchUser(User user);
+    Page<User> searchUser(int page, int size, String userName, String userRole);
 }

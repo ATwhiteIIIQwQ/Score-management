@@ -44,8 +44,12 @@ public class UserController {
     }
 
     @GetMapping("/search")
-    public List<User> search(@ModelAttribute User user) {
-        return userService.searchUser(user);
+    public Page<User> search(
+        @RequestParam(defaultValue = "1") Integer pageNum,
+        @RequestParam(defaultValue = "10") Integer pageSize,
+        @RequestParam(required = false) String userName,
+        @RequestParam(required = false) String userRole) {
+        return userService.searchUser(pageNum, pageSize, userName, userRole);
     }
 
     @PostMapping("/login")
