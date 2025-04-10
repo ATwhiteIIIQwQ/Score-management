@@ -17,10 +17,11 @@
 -- 导出  表 ate.oop_user 结构
 CREATE TABLE IF NOT EXISTS `oop_user` (
   `user_id` int NOT NULL AUTO_INCREMENT COMMENT '用户ID',
-  `user_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_german2_ci DEFAULT NULL COMMENT '用户名称',
+  `user_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_german2_ci DEFAULT NULL COMMENT '用户账号名',
   `user_password` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_german2_ci DEFAULT NULL COMMENT '用户密码',
   `user_role` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_german2_ci DEFAULT NULL COMMENT '用户角色',
-  PRIMARY KEY (`user_id`)
+  PRIMARY KEY (`user_id`),
+  UNIQUE KEY `user_name` (`user_name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_german2_ci;
 
 -- 正在导出表  ate.oop_user 的数据：~1 rows (大约)

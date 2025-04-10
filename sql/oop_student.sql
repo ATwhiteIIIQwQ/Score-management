@@ -21,7 +21,8 @@ CREATE TABLE IF NOT EXISTS `oop_student` (
   `student_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_german2_ci DEFAULT NULL COMMENT '学生姓名',
   `student_grade` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_german2_ci DEFAULT NULL COMMENT '学生年级',
   `student_class` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_german2_ci DEFAULT NULL COMMENT '学生班级',
-  PRIMARY KEY (`student_id`) USING BTREE
+  PRIMARY KEY (`student_id`) USING BTREE,
+  UNIQUE KEY `student_num` (`student_num`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_german2_ci;
 
 -- 正在导出表  ate.oop_student 的数据：~0 rows (大约)

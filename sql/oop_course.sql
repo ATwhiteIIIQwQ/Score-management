@@ -19,7 +19,8 @@ CREATE TABLE IF NOT EXISTS `oop_course` (
   `course_id` int NOT NULL AUTO_INCREMENT COMMENT '课程ID',
   `course_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_german2_ci DEFAULT NULL COMMENT '课程名称',
   `course_credit` int DEFAULT NULL COMMENT '课程学分',
-  PRIMARY KEY (`course_id`)
+  PRIMARY KEY (`course_id`),
+  UNIQUE KEY `course_name` (`course_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_german2_ci;
 
 -- 正在导出表  ate.oop_course 的数据：~0 rows (大约)
