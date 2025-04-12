@@ -27,7 +27,7 @@
             <router-link 
                 to="/users" 
                 class="nav-link text-white"
-                :style="{ display: userInfo.userRole === '用户' ? 'none' : 'block' }"
+                :style="{ display: userInfo.userRole === '学生' ? 'none' : 'block' }"
                 active-class="active">
                 用户管理
             </router-link>

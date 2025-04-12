@@ -14,7 +14,7 @@
             <input id="studentClass" v-model="student.studentClass" class="form-control me-3" style="width: 250px;">
           </div>
           <button type="submit" class="btn btn-primary m-1">搜索</button>
-          <button type="button" class="btn btn-success m-1" data-bs-toggle="modal" data-bs-target="#Modal" @click="resetFrom" :class="{ disabled: currentUserRole === '用户' }">添加</button>
+          <button type="button" class="btn btn-success m-1" data-bs-toggle="modal" data-bs-target="#Modal" @click="resetFrom" :class="{ disabled: currentUserRole === '学生' }">添加</button>
           <button type="button" class="btn btn-secondary m-1" @click="resetStudent">重置</button>
         </form>
       </div>
@@ -47,7 +47,7 @@
                   data-bs-toggle="modal" 
                   data-bs-target="#Modal"
                   style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem; margin-right: 10px;"
-                  :class="{ disabled: currentUserRole === '用户' }"
+                  :class="{ disabled: currentUserRole === '学生' }"
                   @click="loadStudent(student)"
                 >
                   编辑
@@ -55,7 +55,7 @@
                 <button 
                   class="btn btn-outline-danger btn-sm"
                   style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;"
-                  :class="{ disabled: currentUserRole === '用户' }"
+                  :class="{ disabled: currentUserRole === '学生' }"
                   @click="deleteStudent(student.studentId)"
                 >
                   删除

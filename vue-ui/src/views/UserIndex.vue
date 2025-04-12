@@ -39,7 +39,7 @@
                   data-bs-toggle="modal" 
                   data-bs-target="#Modal"
                   style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem; margin-right: 10px;"
-                  :class="{ disabled: currentUserRole === '教师' }"
+                  :class="{ disabled: currentUserRole === '教师' || user.userRole === 'admin' }"
                   @click="loadUser(user)"
                 >
                   编辑
@@ -48,7 +48,7 @@
                   class="btn btn-outline-danger btn-sm"
                   style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;"
                   @click="deleteUser(user.userId)"
-                  :class="{ disabled: currentUserRole === '教师' }"
+                  :class="{ disabled: currentUserRole === '教师' || user.userRole === 'admin' }"
                 >
                   删除
                 </button>
@@ -172,7 +172,7 @@ export default {
         userRole: null,
       },
       roles: [
-        { roleName: '用户' },
+        { roleName: '学生' },
         { roleName: '教师' }, 
       ],
       toastMessage: '',
@@ -190,7 +190,7 @@ export default {
       this.$router.replace('/LoginIndex')
     }
     const userInfo = JSON.parse(localStorage.getItem('userInfo'));
-    if (!userInfo || userInfo.userRole === '用户') {
+    if (!userInfo || userInfo.userRole === '学生') {
       this.$router.replace('/students');
     }
   },

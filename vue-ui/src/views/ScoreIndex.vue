@@ -20,7 +20,7 @@
             <input id="score" v-model="score.score" class="form-control me-3" type="number" style="width: 250px;">
           </div>
           <button type="submit" class="btn btn-primary m-1">搜索</button>
-          <button type="button" class="btn btn-success m-1" data-bs-toggle="modal" data-bs-target="#Modal" @click="resetFrom" :class="{ disabled: currentUserRole === '用户' }">添加</button>
+          <button type="button" class="btn btn-success m-1" data-bs-toggle="modal" data-bs-target="#Modal" @click="resetFrom" :class="{ disabled: currentUserRole === '学生' }">添加</button>
           <button type="button" class="btn btn-secondary m-1" @click="resetScore">重置</button>
         </form>
       </div>
@@ -51,14 +51,14 @@
                   data-bs-toggle="modal" 
                   data-bs-target="#Modal"
                   style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem; margin-right: 10px;"
-                  :class="{ disabled: currentUserRole === '用户' }"
+                  :class="{ disabled: currentUserRole === '学生' }"
                   @click="loadScore(score)">
                   编辑
                 </button>
                 <button
                   class="btn btn-outline-danger btn-sm"
                   style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;"
-                  :class="{ disabled: currentUserRole === '用户' }"
+                  :class="{ disabled: currentUserRole === '学生' }"
                   @click="deleteScore(score.scoreId)">
                   删除
                 </button>
