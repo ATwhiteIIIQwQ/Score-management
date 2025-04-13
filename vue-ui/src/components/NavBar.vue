@@ -21,6 +21,14 @@
             <router-link 
                 to="/scores" 
                 class="nav-link text-white"
+                :style="{ display: userInfo.userRole === '学生' ? 'none' : 'block' }"
+                active-class="active">
+                成绩管理
+            </router-link>
+            <router-link
+                to="/stu_scores" 
+                class="nav-link text-white"
+                :style="{ display: userInfo.userRole === '学生' ? 'block' : 'none' }"
                 active-class="active">
                 成绩管理
             </router-link>

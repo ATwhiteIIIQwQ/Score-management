@@ -22,7 +22,6 @@
         <table class="table table-hover table-striped">
           <thead>
             <tr>
-              <th scope="col">#</th>
               <th scope="col">课程名称</th>
               <th scope="col">学分</th>
               <th scope="col">操作</th>
@@ -30,7 +29,6 @@
           </thead>
           <tbody>
             <tr v-for="course in courses" :key="course.courseId">
-              <td>{{ course.courseId }}</td>
               <td>{{ course.courseName }}</td>
               <td>{{ course.courseCredit }}</td>
               <td>

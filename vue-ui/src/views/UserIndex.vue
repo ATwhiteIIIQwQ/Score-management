@@ -22,7 +22,6 @@
         <table class="table table-hover table-striped">
           <thead>
             <tr>
-              <th scope="col">#</th>
               <th scope="col">用户名</th>
               <th scope="col">角色</th>
               <th scope="col">操作</th>
@@ -30,7 +29,6 @@
           </thead>
           <tbody>
             <tr v-for="user in users" :key="user.userId">
-              <td>{{ user.userId }}</td>
               <td>{{ user.userName }}</td>
               <td>{{ user.userRole }}</td>
               <td>

@@ -32,7 +32,6 @@
         <table class="table table-hover table-striped">
           <thead>
             <tr>
-              <th scope="col">#</th>
               <th scope="col">学生</th>
               <th scope="col">课程</th>
               <th scope="col">成绩</th>
@@ -41,7 +40,6 @@
           </thead>
           <tbody>
             <tr v-for="score in scores" :key="score.scoreId">
-              <td>{{ score.scoreId }}</td>
               <td>{{ score.studentName }}</td>
               <td>{{ score.courseName }}</td>
               <td>{{ score.score }}</td>

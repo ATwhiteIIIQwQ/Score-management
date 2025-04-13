@@ -17,6 +17,10 @@ const Router = createRouter({
             component: () => import('@/views/ScoreIndex.vue')
         },
         {
+          path: '/stu_scores',
+          component: () => import('@/views/StuScoreIndex.vue')
+        },
+        {
             path: '/users',
             component: () => import('@/views/UserIndex.vue')
         },

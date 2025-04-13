@@ -26,7 +26,6 @@
         <table class="table table-hover table-striped">
           <thead>
             <tr>
-              <th scope="col">#</th>
               <th scope="col">学号</th>
               <th scope="col">姓名</th>
               <th scope="col">年级</th>
@@ -36,7 +35,6 @@
           </thead>
           <tbody>
             <tr v-for="student in students" :key="student.studentId">
-              <td>{{ student.studentId }}</td>
               <td>{{ student.studentNum }}</td>
               <td>{{ student.studentName }}</td>
               <td>{{ student.studentGrade }}</td>
@@ -164,6 +162,7 @@
   
 <script>
   import studentApi from '@/api/student';
+  import userApi from '@/api/user';
   import { Toast } from 'bootstrap';
 
   export default {
@@ -182,6 +181,11 @@
           studentName: null,
           studentGrade: null,
           studentClass: null,
+        },
+        user: {
+          userName: null,
+          userPassword: 123456,
+          userRole: '学生',
         },
         toastMessage: '',
         toast: null,
@@ -254,6 +258,8 @@
         } else {
           try { 
             await studentApi.addStudent(this.form);
+            this.user.userName = this.form.studentNum;
+            await userApi.addUser(this.user);
             this.loadStudents();
             this.toastMessage = '添加成功！';
             this.toast.show();
