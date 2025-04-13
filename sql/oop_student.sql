@@ -17,8 +17,8 @@
 -- 导出  表 ate.oop_student 结构
 CREATE TABLE IF NOT EXISTS `oop_student` (
   `student_id` int NOT NULL AUTO_INCREMENT COMMENT '学生ID',
-  `student_num` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_german2_ci DEFAULT NULL COMMENT '学生学号',
-  `student_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_german2_ci DEFAULT NULL COMMENT '学生姓名',
+  `student_num` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_german2_ci NOT NULL COMMENT '学生学号',
+  `student_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_german2_ci NOT NULL COMMENT '学生姓名',
   `student_grade` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_german2_ci DEFAULT NULL COMMENT '学生年级',
   `student_class` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_german2_ci DEFAULT NULL COMMENT '学生班级',
   PRIMARY KEY (`student_id`) USING BTREE,

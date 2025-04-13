@@ -17,7 +17,7 @@
 -- 导出  表 ate.oop_user 结构
 CREATE TABLE IF NOT EXISTS `oop_user` (
   `user_id` int NOT NULL AUTO_INCREMENT COMMENT '用户ID',
-  `user_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_german2_ci DEFAULT NULL COMMENT '用户账号名',
+  `user_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_german2_ci NOT NULL COMMENT '用户账号名',
   `user_password` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_german2_ci DEFAULT NULL COMMENT '用户密码',
   `user_role` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_german2_ci DEFAULT NULL COMMENT '用户角色',
   PRIMARY KEY (`user_id`),
