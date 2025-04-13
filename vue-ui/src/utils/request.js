@@ -32,8 +32,6 @@ service.interceptors.response.use(
     let message = '';
     if (status === 500) {
       message = '后端服务未启动，请检查服务器状态';
-    } else if (error.message.includes('Network Error')) {
-      message = '网络连接异常，请检查网络设置';
     } else {
       const backendMessage = errorResponse.data?.message;
       message = backendMessage || error.message || '请求失败';
