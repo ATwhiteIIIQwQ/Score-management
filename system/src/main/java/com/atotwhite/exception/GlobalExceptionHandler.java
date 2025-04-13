@@ -21,8 +21,6 @@ public class GlobalExceptionHandler {
             body.put("message", "长度超过限制");
         } else if (rootMsg.contains("Duplicate entry")) {
             body.put("message", "出现重复数据");
-        } else if (rootMsg.contains("idx_student_course")) {
-            body.put("message", "同一学生同一课程只能有一个成绩");
         } else {
             body.put("message", "数据库约束冲突");
         }

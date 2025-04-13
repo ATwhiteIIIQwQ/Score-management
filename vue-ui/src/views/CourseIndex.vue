@@ -3,14 +3,19 @@
     <div class="card shadow-sm mb-3">
       <div class="card-body">
         <form @submit.prevent="handleSearch">
-          <div class="d-flex flex-row align-items-center mb-3">
-            <label for="courseName" class="col-form-label text-center me-2" style="width: 70px;">课程名称</label>
-            <input id="courseName" v-model="course.courseName" class="form-control me-3" style="width: 250px;">
-            <label for="courseCredit" class="col-form-label text-center me-2" style="width: 70px;">学分</label>
-            <input id="courseCredit" v-model="course.courseCredit" class="form-control me-3" type="number" style="width: 250px;">
+          <div class="d-flex flex-wrap align-items-center mb-3 gap-2">
+            <div class="d-flex align-items-center flex-grow-1" style="min-width: 200px; max-width: 330px">
+              <label for="courseName" class="col-form-label text-center me-2" style="width: 100px">课程名称</label>
+              <input id="courseName" v-model="course.courseName" class="form-control">
+            </div>
+            <div class="d-flex align-items-center flex-grow-1" style="min-width: 200px; max-width: 330px">
+              <label for="courseCredit" class="col-form-label text-center me-2" style="width: 100px">学分</label>
+              <input id="courseCredit" v-model="course.courseCredit" class="form-control" type="number">
+            </div>
           </div>
           <button type="submit" class="btn btn-primary m-1">搜索</button>
-          <button type="button" class="btn btn-success m-1" data-bs-toggle="modal" data-bs-target="#Modal" @click="resetFrom" :class="{ disabled: currentUserRole === '学生' }">添加</button>
+          <button type="button" class="btn btn-success m-1" data-bs-toggle="modal" data-bs-target="#Modal" 
+                  @click="resetFrom" :class="{ disabled: currentUserRole === '学生' }">添加</button>
           <button type="button" class="btn btn-secondary m-1" @click="resetCourse">重置</button>
         </form>
       </div>

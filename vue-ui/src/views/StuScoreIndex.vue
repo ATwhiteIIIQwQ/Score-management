@@ -3,18 +3,22 @@
     <div class="card shadow-sm mb-3">
       <div class="card-body">
         <form @submit.prevent="handleSearch">
-          <div class="d-flex flex-row align-items-center mb-3">
-            <label for="courseId" class="col-form-label text-center me-2" style="width: 70px;">课程</label>
-            <select id="course" v-model="score.courseId" class="form-select me-3" style="width: 250px;">
-              <option v-for="course in courses" :value="course.courseId" :key="course.courseId">
-                {{ course.courseName }}
-              </option>
-            </select>
-            <label for="score" class="col-form-label text-center me-2" style="width: 70px;">成绩</label>
-            <input id="score" v-model="score.score" class="form-control me-3" type="number" style="width: 250px;">
+          <div class="d-flex flex-wrap align-items-center mb-3 gap-2">
+            <div class="d-flex align-items-center flex-grow-1" style="min-width: 200px; max-width: 330px">
+              <label for="courseId" class="col-form-label text-center me-2" style="width: 100px">课程</label>
+              <select id="course" v-model="score.courseId" class="form-select">
+                <option v-for="course in courses" :value="course.courseId" :key="course.courseId">
+                  {{ course.courseName }}
+                </option>
+              </select>
+            </div>
+            <div class="d-flex align-items-center flex-grow-1" style="min-width: 200px; max-width: 330px">
+              <label for="score" class="col-form-label text-center me-2" style="width: 100px">成绩</label>
+              <input id="score" v-model="score.score" class="form-control" type="number">
+            </div>
           </div>
           <button type="submit" class="btn btn-primary m-1">搜索</button>
-          <button type="button" class="btn btn-success m-1 disabled">添加</button>
+          <button type="button" class="btn btn-success m-1" data-bs-toggle="modal" data-bs-target="#Modal" @click="resetFrom" :class="{ disabled: currentUserRole === '学生' }">添加</button>
           <button type="button" class="btn btn-secondary m-1" @click="resetScore">重置</button>
         </form>
       </div>

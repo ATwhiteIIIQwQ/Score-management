@@ -3,14 +3,19 @@
     <div class="card shadow-sm mb-3">
       <div class="card-body">
         <form @submit.prevent="handleSearch">
-          <div class="d-flex flex-row align-items-center mb-3">
-            <label for="userName" class="col-form-label text-center me-2" style="width: 70px;">用户名</label>
-            <input id="userName" v-model="user.userName" class="form-control me-3" style="width: 250px;">
-            <label for="userRole" class="col-form-label text-center me-2" style="width: 70px;">角色</label>
-            <input id="userRole" v-model="user.userRole" class="form-control me-3" style="width: 250px;">
+          <div class="d-flex flex-wrap align-items-center mb-3 gap-2">
+            <div class="d-flex align-items-center flex-grow-1" style="min-width: 200px; max-width: 330px">
+              <label for="userName" class="col-form-label text-center me-2" style="width: 100px">用户名</label>
+              <input id="userName" v-model="user.userName" class="form-control">
+            </div>
+            <div class="d-flex align-items-center flex-grow-1" style="min-width: 200px; max-width: 330px">
+              <label for="userRole" class="col-form-label text-center me-2" style="width: 100px">角色</label>
+              <input id="userRole" v-model="user.userRole" class="form-control">
+            </div>
           </div>
           <button type="submit" class="btn btn-primary m-1">搜索</button>
-          <button type="button" class="btn btn-success m-1" data-bs-toggle="modal" data-bs-target="#Modal" @click="resetFrom" :class="{ disabled: currentUserRole === '教师' }">添加</button>
+          <button type="button" class="btn btn-success m-1" data-bs-toggle="modal" data-bs-target="#Modal" 
+                  @click="resetFrom" :class="{ disabled: currentUserRole === '教师' }">添加</button>
           <button type="button" class="btn btn-secondary m-1" @click="resetUser">重置</button>
         </form>
       </div>

@@ -3,18 +3,27 @@
     <div class="card shadow-sm mb-3">
       <div class="card-body">
         <form @submit.prevent="handleSearch">
-          <div class="d-flex flex-row align-items-center mb-3">
-            <label for="studentNum" class="col-form-label text-center me-2" style="width: 70px;">学号</label>
-            <input id="studentNum" v-model="student.studentNum" class="form-control me-3" style="width: 250px;">
-            <label for="studentName" class="col-form-label text-center me-2" style="width: 70px;">姓名</label>
-            <input id="studentName" v-model="student.studentName" class="form-control me-3" style="width: 250px;">
-            <label for="studentGrade" class="col-form-label text-center me-2" style="width: 70px;">年级</label>
-            <input id="studentGrade" v-model="student.studentGrade" class="form-control me-3" style="width: 250px;">
-            <label for="studentClass" class="col-form-label text-center me-2" style="width: 70px;">班级</label>
-            <input id="studentClass" v-model="student.studentClass" class="form-control me-3" style="width: 250px;">
+          <div class="d-flex flex-wrap align-items-center mb-3 gap-2">
+            <div class="d-flex align-items-center flex-grow-1" style="min-width: 200px; max-width: 330px">
+              <label for="studentNum" class="col-form-label text-center me-2" style="width: 100px">学号</label>
+              <input id="studentNum" v-model="student.studentNum" class="form-control">
+            </div>
+            <div class="d-flex align-items-center flex-grow-1" style="min-width: 200px; max-width: 330px">
+              <label for="studentName" class="col-form-label text-center me-2" style="width: 100px">姓名</label>
+              <input id="studentName" v-model="student.studentName" class="form-control">
+            </div>
+            <div class="d-flex align-items-center flex-grow-1" style="min-width: 200px; max-width: 330px">
+              <label for="studentGrade" class="col-form-label text-center me-2" style="width: 100px">年级</label>
+              <input id="studentGrade" v-model="student.studentGrade" class="form-control" type="number">
+            </div>
+            <div class="d-flex align-items-center flex-grow-1" style="min-width: 200px; max-width: 330px">
+              <label for="studentClass" class="col-form-label text-center me-2" style="width: 100px">班级</label>
+              <input id="studentClass" v-model="student.studentClass" class="form-control">
+            </div>
           </div>
           <button type="submit" class="btn btn-primary m-1">搜索</button>
-          <button type="button" class="btn btn-success m-1" data-bs-toggle="modal" data-bs-target="#Modal" @click="resetFrom" :class="{ disabled: currentUserRole === '学生' }">添加</button>
+          <button type="button" class="btn btn-success m-1" data-bs-toggle="modal" data-bs-target="#Modal" 
+                  @click="resetFrom" :class="{ disabled: currentUserRole === '学生' }">添加</button>
           <button type="button" class="btn btn-secondary m-1" @click="resetStudent">重置</button>
         </form>
       </div>
