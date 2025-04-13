@@ -269,6 +269,11 @@ export default {
       }
     },
     async handleSubmit() {
+      if (!this.form.studentId || !this.form.courseId) {
+        this.toastMessage = '学生与课程不能为空';
+        this.toast.show();
+        return;
+      }
       if (this.scoreId) {
         try {
           await scoreApi.updateScore(this.scoreId, this.form);

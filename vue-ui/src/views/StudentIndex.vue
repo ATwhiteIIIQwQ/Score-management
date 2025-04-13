@@ -251,6 +251,11 @@
         }
       },
       async handleSubmit() {
+        if (!this.form.studentNum) {
+          this.toastMessage = '学号不能为空！';
+          this.toast.show();
+          return;
+        }
         if (this.studentId) {
           try {
             await studentApi.updateStudent(this.studentId, this.form);

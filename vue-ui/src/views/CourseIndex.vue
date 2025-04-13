@@ -217,6 +217,11 @@ export default {
       }
     },
     async handleSubmit() {
+      if (!this.form.courseName) {
+          this.toastMessage = '课程名称不能为空！';
+          this.toast.show();
+          return;
+        }
       if (this.courseId) {
         try {
           await courseApi.updateCourse(this.courseId, this.form);

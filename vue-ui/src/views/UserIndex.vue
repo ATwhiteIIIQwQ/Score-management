@@ -114,7 +114,7 @@
             <div class="row mb-3">
               <label for="password" class="col-form-label col-3 text-center">密码</label>
               <div class="col-9">
-                <input id="password" v-model="form.userPassword" class="form-control" type="password">
+                <input id="password" type="password" v-model="form.userPassword" class="form-control">
               </div>
             </div>
             <div class="row mb-3">
@@ -171,7 +171,7 @@ export default {
       },
       form: {
         userName: null,
-        userPassword: null,
+        userPassword: 123456,
         userRole: null,
       },
       roles: [
@@ -235,6 +235,11 @@ export default {
         }
     },
     async handleSubmit() {
+      if (!this.form.userName || !this.form.userPassword) {
+        this.toastMessage = '用户名与密码不能为空！';
+        this.toast.show();
+        return;
+      }
       if (this.courseId) {
         try {
           await userApi.updateUser(this.courseId, this.form);
@@ -242,7 +247,7 @@ export default {
           this.toastMessage = '更新成功！';
           this.toast.show();
           this.courseId = null;
-          this.form = { userName: null, password: null, userRole: null };
+          this.form = { userName: null, password: 123456, userRole: null };
         } catch (error) {
           console.error('更新失败:', error);
           this.toastMessage = error.message || '更新失败！';
@@ -254,7 +259,7 @@ export default {
           this.loadUsers();
           this.toastMessage = '添加成功！';
           this.toast.show();
-          this.form = { userName: null, password: null, userRole: null };
+          this.form = { userName: null, password: 123456, userRole: null };
         } catch (error) {
           console.error('添加失败:', error);
           this.toastMessage = error.message || '添加失败！';
@@ -277,7 +282,7 @@ export default {
       this.loadUsers();  
     },
     resetFrom() {
-      this.form = { userName: null, userRole: null };
+      this.form = { userName: null, userPassword: 123456, userRole: null };
       this.isEdit = false; 
     },
     async loadUser(user) {
