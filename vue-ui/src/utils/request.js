@@ -2,7 +2,7 @@ import axios from 'axios'
 
 const service = axios.create({
   baseURL: '/system',
-  timeout: 10000, // 请求超时时间
+  timeout: 10000,
   headers: {
     'Content-Type': 'application/json;charset=UTF-8'
   }

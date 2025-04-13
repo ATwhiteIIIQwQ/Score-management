@@ -1,6 +1,5 @@
 import service from '@/utils/request'
 
-// 修改搜索API调用方式
 export default {
     getAllStudents() {
         return service.get('/student/list')
