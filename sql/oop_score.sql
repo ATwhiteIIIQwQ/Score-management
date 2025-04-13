@@ -22,7 +22,8 @@ CREATE TABLE IF NOT EXISTS `oop_score` (
   `course_id` int DEFAULT NULL COMMENT '课程ID',
   `course_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_german2_ci DEFAULT NULL COMMENT '课程名称',
   `score` int DEFAULT NULL COMMENT '分数',
-  PRIMARY KEY (`score_id`)
+  PRIMARY KEY (`score_id`),
+  UNIQUE KEY `idx_student_course` (`student_id`,`course_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_german2_ci;
 
 -- 正在导出表  ate.oop_score 的数据：~0 rows (大约)

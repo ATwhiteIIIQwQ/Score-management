@@ -27,13 +27,22 @@ service.interceptors.response.use(
   response => response.data,
   error => {
     const errorResponse = error.response || {};
-    const backendError = errorResponse.data || {};
     const status = errorResponse.status || 500;
     
+    let message = '';
+    if (status === 500) {
+      message = '后端服务未启动，请检查服务器状态';
+    } else if (error.message.includes('Network Error')) {
+      message = '网络连接异常，请检查网络设置';
+    } else {
+      const backendMessage = errorResponse.data?.message;
+      message = backendMessage || error.message || '请求失败';
+    }
+
     const Error = {
       code: status,
-      message: backendError.message || error.message || '请求失败',
-      data: backendError
+      message: message,
+      data: errorResponse.data || {}
     };
 
     return Promise.reject(Error);
