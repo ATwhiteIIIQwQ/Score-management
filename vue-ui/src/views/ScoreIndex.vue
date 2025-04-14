@@ -139,7 +139,7 @@
             <div class="row mb-3">
               <label for="score" class="col-form-label col-2 text-center">成绩</label>
               <div class="col-10">
-                <input id="score" v-model="form.score" type="number" class="form-control">
+                <input id="score" v-model="form.score" type="number" class="form-control" min="0" max="100">
               </div>
             </div>
           </form>
@@ -255,12 +255,12 @@ export default {
       if (confirm('确定删除分数吗？')) {
         try {
           await scoreApi.deleteScore(scoreId);
-          this.toastMessage = '删除成功！';
-          this.toast.show();
           if (this.scores.length === 1 && this.currentPage > 1) {
             this.currentPage -= 1;
           }
-          this.loadScores(this.currentPage, this.pageSize);
+          await this.loadScores(this.currentPage, this.pageSize);
+          this.toastMessage = '删除成功！';
+          this.toast.show();
         } catch (error) {
           console.error('删除失败:', error);
           this.toastMessage = error.message || '删除失败！';
@@ -269,6 +269,11 @@ export default {
       }
     },
     async handleSubmit() {
+      if (this.form.score < 0 || this.form.score > 100) {
+        this.toastMessage = '成绩必须在0~100之间';
+        this.toast.show();
+        return;
+      }
       if (!this.form.studentId || !this.form.courseId) {
         this.toastMessage = '学生与课程不能为空';
         this.toast.show();

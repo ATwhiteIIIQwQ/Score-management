@@ -114,7 +114,7 @@
               <div class="row mb-3">
                 <label for="courseCredit" class="col-form-label col-3 text-center">学分</label>
                 <div class="col-9">
-                  <input id="courseCredit" v-model="form.courseCredit" class="form-control" type="number">
+                  <input id="courseCredit" v-model="form.courseCredit" class="form-control" type="number" min="0" max="10">
                 </div>
               </div>
             </form>
@@ -203,12 +203,12 @@ export default {
       if (confirm('确定删除课程吗？')) {
         try {
           await courseApi.deleteCourse(courseId);
-          this.toastMessage = error.message || '删除成功！';
-          this.toast.show();
-          if (this.students.length === 1 && this.currentPage > 1) {
+          if (this.courses.length === 1 && this.currentPage > 1) {
               this.currentPage -= 1;
-            }
-          this.loadCourses();
+          }
+          await this.loadCourses(this.currentPage, this.pageSize);
+          this.toastMessage = '删除成功！';
+          this.toast.show();
         } catch (error) {
           console.error('删除失败:', error);
           this.toastMessage = error.message || '删除失败！';
@@ -217,15 +217,20 @@ export default {
       }
     },
     async handleSubmit() {
+      if (this.form.courseCredit < 0 || this.form.courseCredit > 10) {
+        this.toastMessage = '学分必须在0~10之间';
+        this.toast.show();
+        return;
+      }
       if (!this.form.courseName) {
           this.toastMessage = '课程名称不能为空！';
           this.toast.show();
           return;
-        }
+      }
       if (this.courseId) {
         try {
           await courseApi.updateCourse(this.courseId, this.form);
-          this.loadCourses();
+          this.loadCourses(this.currentPage, this.pageSize);
           this.toastMessage = '更新成功！';
           this.toast.show();
           this.courseId = null;
@@ -238,7 +243,7 @@ export default {
       } else {
         try { 
           await courseApi.addCourse(this.form);
-          this.loadCourses();
+          this.loadCourses(this.currentPage, this.pageSize);
           this.toastMessage = '添加成功！';
           this.toast.show();
           this.form = { courseName: null, courseCredit: null };

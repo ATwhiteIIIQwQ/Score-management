@@ -221,12 +221,12 @@ export default {
         if (confirm('确定删除用户吗？')) {
             try {
                 await userApi.deleteUser(userId);
-                this.toastMessage = '删除成功！';
-                this.toast.show();
                 if (this.users.length === 1 && this.currentPage > 1) {
                     this.currentPage -= 1;
                 }
-                this.loadUsers();
+                await this.loadUsers(this.currentPage, this.pageSize);
+                this.toastMessage = '删除成功！';
+                this.toast.show();
             } catch (error) {
                 console.error('删除失败:', error);
                 this.toastMessage = error.message || '删除失败！';
@@ -243,7 +243,7 @@ export default {
       if (this.courseId) {
         try {
           await userApi.updateUser(this.courseId, this.form);
-          this.loadUsers();
+          this.loadUsers(this.currentPage, this.pageSize);
           this.toastMessage = '更新成功！';
           this.toast.show();
           this.courseId = null;
@@ -256,7 +256,7 @@ export default {
       } else {
         try { 
           await userApi.addUser(this.form);
-          this.loadUsers();
+          this.loadUsers(this.currentPage, this.pageSize);
           this.toastMessage = '添加成功！';
           this.toast.show();
           this.form = { userName: null, password: 123456, userRole: null };
@@ -298,7 +298,7 @@ export default {
     },
     async handlePageChange(page) {
       this.currentPage = page;
-      this.loadCourses(page, this.pageSize);
+      this.loadUsers(page, this.pageSize);
     }
   }
 };

@@ -237,12 +237,12 @@
         if (confirm('确定删除学生吗？')) {
           try {
             await studentApi.deleteStudent(studentId);
-            this.toastMessage = '删除成功！';
-            this.toast.show();
             if (this.students.length === 1 && this.currentPage > 1) {
               this.currentPage -= 1;
             }
-            this.loadStudents();
+            await this.loadStudents(this.currentPage, this.pageSize);
+            this.toastMessage = '删除成功！';
+            this.toast.show();
           } catch (error) {
             console.error('删除失败:', error);
             this.toastMessage = error.message || '删除失败！';
@@ -259,7 +259,7 @@
         if (this.studentId) {
           try {
             await studentApi.updateStudent(this.studentId, this.form);
-            this.loadStudents();
+            this.loadStudents(this.currentPage, this.pageSize);
             this.toastMessage = '更新成功！';
             this.toast.show();
             this.studentId = null;
@@ -274,7 +274,7 @@
             await studentApi.addStudent(this.form);
             this.user.userName = this.form.studentNum;
             await userApi.addUser(this.user);
-            this.loadStudents();
+            this.loadStudents(this.currentPage, this.pageSize);
             this.toastMessage = '添加成功！';
             this.toast.show();
             this.form = { studentNum: null, studentName: null, studentGrade: null, studentClass: null };
