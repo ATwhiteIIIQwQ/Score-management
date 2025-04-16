@@ -14,6 +14,12 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
+-- 创建  数据库 ate
+CREATE DATABASE IF NOT EXISTS `ate` 
+CHARACTER SET utf8mb4 
+COLLATE utf8mb4_german2_ci;
+USE `ate`;
+
 -- 导出  表 ate.oop_score 结构
 CREATE TABLE IF NOT EXISTS `oop_score` (
   `score_id` int NOT NULL AUTO_INCREMENT COMMENT '分数ID',
